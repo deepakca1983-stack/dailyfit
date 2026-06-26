@@ -4,6 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DailyFit — Personalised Daily Exercise Plan</title>
+<meta name="description" content="Free daily exercise plans for gym or home, tailored to your gender, age and health conditions." />
+<meta name="theme-color" content="#5b8cff" />
+<!-- Home Screen icon & app name -->
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" type="image/png" href="icon-192.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="DailyFit" />
 <style>
   :root{
     --bg:#0f1226; --card:#1a1f3a; --card2:#232a4d; --ink:#e9ecf6; --mut:#9aa3c4;
@@ -33,6 +42,12 @@
   .btn{cursor:pointer;border:none;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:700;
     background:linear-gradient(120deg,var(--accent),#7aa2ff);color:#fff;margin-top:8px}
   .btn:hover{filter:brightness(1.07)}
+  .btn.share{background:linear-gradient(120deg,#37d6a6,#23b98c);margin-left:10px}
+  .shareRow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#23b98c;color:#fff;
+    padding:12px 18px;border-radius:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;
+    transition:.25s;pointer-events:none;z-index:50}
+  .toast.show{opacity:1}
   .tabs{display:flex;gap:10px;margin-top:6px}
   .tab{flex:1;text-align:center;cursor:pointer;padding:12px;border-radius:12px;border:1px solid var(--line);
     background:#10142e;font-weight:700;color:var(--mut)}
@@ -63,6 +78,10 @@
     <h1>🏋️ DailyFit</h1>
     <p>Your daily exercise plan — tailored to gender, age &amp; health conditions. Gym and Home shown separately.</p>
     <span class="badge">Educational tool · not medical advice</span>
+    <div class="shareRow">
+      <button class="btn share" id="shareBtn" style="padding:9px 16px;font-size:14px">📲 Share with friends</button>
+      <button class="btn share" id="waBtn" style="padding:9px 16px;font-size:14px;background:linear-gradient(120deg,#25d366,#1aa851)">WhatsApp</button>
+    </div>
   </header>
 
   <!-- INPUT -->
@@ -136,6 +155,7 @@
     discomfort — stop and consult a doctor before starting. Plans rotate by day of the week so each day differs.
   </div>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
 /* ---------- Exercise library ----------
@@ -324,6 +344,26 @@ document.getElementById("go").addEventListener("click",()=>{
   document.getElementById("planGym").classList.remove("hidden");
   document.getElementById("planHome").classList.add("hidden");
   document.getElementById("output").scrollIntoView({behavior:"smooth"});
+});
+
+/* ---------- Share ---------- */
+const SHARE_URL = location.origin + location.pathname;
+const SHARE_MSG = "Sharing a free daily workout app I'm using 💪 — pick your gender, age & health conditions and it gives separate Gym and Home plans for the day. No sign-up, works on any phone:";
+function toast(t){
+  const el=document.getElementById("toast"); el.textContent=t; el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),2200);
+}
+document.getElementById("shareBtn").addEventListener("click",async()=>{
+  if(navigator.share){
+    try{ await navigator.share({title:"DailyFit",text:SHARE_MSG,url:SHARE_URL}); }catch(e){}
+  }else{
+    try{ await navigator.clipboard.writeText(SHARE_MSG+" "+SHARE_URL); toast("Link copied — paste & send!"); }
+    catch(e){ prompt("Copy this link to share:", SHARE_URL); }
+  }
+});
+document.getElementById("waBtn").addEventListener("click",()=>{
+  const txt=encodeURIComponent(SHARE_MSG+" "+SHARE_URL);
+  window.open("https://wa.me/?text="+txt,"_blank");
 });
 </script>
 </body>
