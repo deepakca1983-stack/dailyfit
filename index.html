@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DailyFit — Personalised Daily Exercise Plan</title>
+<style>
+  :root{
+    --bg:#0f1226; --card:#1a1f3a; --card2:#232a4d; --ink:#e9ecf6; --mut:#9aa3c4;
+    --accent:#5b8cff; --accent2:#37d6a6; --warn:#ffb23e; --danger:#ff6b81; --line:#2c3460;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,Arial,sans-serif;background:
+    radial-gradient(1200px 600px at 10% -10%,#21285a 0,transparent 60%),
+    radial-gradient(1000px 500px at 110% 10%,#13324a 0,transparent 55%),var(--bg);
+    color:var(--ink);min-height:100vh}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 18px 60px}
+  header h1{margin:0;font-size:30px;letter-spacing:.3px}
+  header p{margin:6px 0 0;color:var(--mut)}
+  .badge{display:inline-block;background:var(--card2);border:1px solid var(--line);
+    color:var(--accent2);font-size:12px;padding:3px 10px;border-radius:999px;margin-top:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px;font-weight:600}
+  input,select{width:100%;padding:11px 12px;background:#10142e;border:1px solid var(--line);
+    border-radius:10px;color:var(--ink);font-size:15px}
+  input:focus,select:focus{outline:none;border-color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{user-select:none;cursor:pointer;padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+    background:#10142e;color:var(--ink);font-size:13px;transition:.15s}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn{cursor:pointer;border:none;border-radius:12px;padding:13px 22px;font-size:16px;font-weight:700;
+    background:linear-gradient(120deg,var(--accent),#7aa2ff);color:#fff;margin-top:8px}
+  .btn:hover{filter:brightness(1.07)}
+  .tabs{display:flex;gap:10px;margin-top:6px}
+  .tab{flex:1;text-align:center;cursor:pointer;padding:12px;border-radius:12px;border:1px solid var(--line);
+    background:#10142e;font-weight:700;color:var(--mut)}
+  .tab.on{background:var(--card2);color:var(--ink);border-color:var(--accent)}
+  .section-title{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin:18px 0 8px}
+  .ex{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 14px;
+    border:1px solid var(--line);border-radius:12px;background:var(--card2);margin-bottom:10px}
+  .ex h4{margin:0 0 3px;font-size:16px}
+  .ex small{color:var(--mut);display:block;line-height:1.45}
+  .ex .dose{white-space:nowrap;font-weight:800;color:var(--accent);font-size:14px;text-align:right}
+  .note{display:flex;gap:10px;padding:12px 14px;border-radius:12px;margin-bottom:10px;font-size:14px;line-height:1.5}
+  .note.warn{background:rgba(255,178,62,.12);border:1px solid rgba(255,178,62,.4);color:#ffd89a}
+  .note.info{background:rgba(91,140,255,.12);border:1px solid rgba(91,140,255,.4);color:#bcd0ff}
+  .note.danger{background:rgba(255,107,129,.12);border:1px solid rgba(255,107,129,.45);color:#ffc2cc}
+  .summary{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+  .pill{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px}
+  .pill b{color:var(--ink)}
+  .hidden{display:none}
+  .muted{color:var(--mut);font-size:13px}
+  .foot{color:var(--mut);font-size:12px;margin-top:22px;line-height:1.6}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🏋️ DailyFit</h1>
+    <p>Your daily exercise plan — tailored to gender, age &amp; health conditions. Gym and Home shown separately.</p>
+    <span class="badge">Educational tool · not medical advice</span>
+  </header>
+
+  <!-- INPUT -->
+  <div class="card" id="inputCard">
+    <div class="grid">
+      <div>
+        <label>Gender</label>
+        <select id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other / Prefer not to say</option>
+        </select>
+      </div>
+      <div>
+        <label>Age (years)</label>
+        <input id="age" type="number" min="10" max="100" value="30" />
+      </div>
+      <div>
+        <label>Primary Goal</label>
+        <select id="goal">
+          <option value="general">General fitness</option>
+          <option value="fatloss">Weight / fat loss</option>
+          <option value="muscle">Muscle &amp; strength</option>
+          <option value="mobility">Mobility &amp; flexibility</option>
+        </select>
+      </div>
+      <div>
+        <label>Experience</label>
+        <select id="level">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:18px">
+      <label>Health Conditions (select all that apply)</label>
+      <div class="chips" id="conditions">
+        <span class="chip on" data-c="none">None</span>
+        <span class="chip" data-c="back">Back pain</span>
+        <span class="chip" data-c="knee">Knee / joint issues</span>
+        <span class="chip" data-c="heart">Hypertension / heart</span>
+        <span class="chip" data-c="diabetes">Diabetes</span>
+        <span class="chip" data-c="obese">Overweight / obesity</span>
+        <span class="chip" data-c="asthma">Asthma / breathing</span>
+        <span class="chip" data-c="pregnancy">Pregnancy</span>
+      </div>
+    </div>
+
+    <button class="btn" id="go">Generate today's plan →</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="output" class="hidden">
+    <div class="card">
+      <div class="summary" id="summary"></div>
+      <div id="globalNotes" style="margin-top:14px"></div>
+      <div class="tabs" style="margin-top:16px">
+        <div class="tab on" data-tab="gym">🏟️ At the Gym</div>
+        <div class="tab" data-tab="home">🏠 At Home</div>
+      </div>
+      <div id="planGym"></div>
+      <div id="planHome" class="hidden"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    ⚠️ <b>Disclaimer:</b> DailyFit gives general fitness suggestions only and is not a substitute for professional
+    medical or training advice. If you have any medical condition, are pregnant, feel pain, dizziness or chest
+    discomfort — stop and consult a doctor before starting. Plans rotate by day of the week so each day differs.
+  </div>
+</div>
+
+<script>
+/* ---------- Exercise library ----------
+   Each exercise: name, where (gym|home|both), groups, intensity (1-3),
+   avoid: [condition tags it is NOT suitable for], dose hint key.            */
+const LIB = [
+  // WARMUP
+  {n:"March in place / brisk walk",where:"both",grp:"warmup",int:1,avoid:[],dose:"5 min"},
+  {n:"Arm circles & shoulder rolls",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min"},
+  {n:"Hip & ankle circles",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min"},
+  {n:"Treadmill easy walk incline",where:"gym",grp:"warmup",int:1,avoid:[],dose:"6 min"},
+  {n:"Cat–cow spine mobility",where:"both",grp:"warmup",int:1,avoid:[],dose:"8 reps"},
+
+  // LOWER BODY
+  {n:"Bodyweight squat",where:"home",grp:"lower",int:2,avoid:["knee"],dose:"3×12"},
+  {n:"Chair sit-to-stand",where:"home",grp:"lower",int:1,avoid:[],dose:"3×10"},
+  {n:"Leg press machine",where:"gym",grp:"lower",int:2,avoid:["knee"],dose:"3×12"},
+  {n:"Goblet squat (dumbbell)",where:"gym",grp:"lower",int:2,avoid:["knee","back"],dose:"3×10"},
+  {n:"Glute bridge",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15"},
+  {n:"Standing calf raise",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15"},
+  {n:"Wall sit",where:"home",grp:"lower",int:2,avoid:["knee","heart"],dose:"3×30s"},
+  {n:"Seated leg extension (machine)",where:"gym",grp:"lower",int:1,avoid:[],dose:"3×12"},
+
+  // UPPER BODY
+  {n:"Wall / knee push-up",where:"home",grp:"upper",int:1,avoid:[],dose:"3×10"},
+  {n:"Standard push-up",where:"home",grp:"upper",int:2,avoid:[],dose:"3×12"},
+  {n:"Chest press machine",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12"},
+  {n:"Lat pulldown",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12"},
+  {n:"Seated row machine",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12"},
+  {n:"Dumbbell shoulder press",where:"gym",grp:"upper",int:2,avoid:["heart"],dose:"3×10"},
+  {n:"Resistance-band row",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12"},
+  {n:"Doorway band chest press",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12"},
+  {n:"Bicep curl (dumbbell/band)",where:"both",grp:"upper",int:1,avoid:[],dose:"3×12"},
+
+  // CORE
+  {n:"Dead bug",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side"},
+  {n:"Bird dog",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side"},
+  {n:"Forearm plank",where:"both",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×25s"},
+  {n:"Side plank (knees)",where:"both",grp:"core",int:2,avoid:["pregnancy"],dose:"2×20s"},
+  {n:"Standing pallof press (band)",where:"both",grp:"core",int:1,avoid:[],dose:"3×10/side"},
+  {n:"Crunch",where:"home",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×15"},
+
+  // CARDIO / CONDITIONING
+  {n:"Stationary bike steady",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min"},
+  {n:"Elliptical cross-trainer",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min"},
+  {n:"Rowing machine",where:"gym",grp:"cardio",int:3,avoid:["back","heart"],dose:"10 min"},
+  {n:"Treadmill intervals",where:"gym",grp:"cardio",int:3,avoid:["knee","heart","asthma"],dose:"12 min"},
+  {n:"Brisk walk (outdoor/indoor)",where:"home",grp:"cardio",int:1,avoid:[],dose:"20 min"},
+  {n:"Step-ups on a stair",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×12"},
+  {n:"Marching high-knees",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×40s"},
+  {n:"Jumping jacks",where:"home",grp:"cardio",int:3,avoid:["knee","heart","pregnancy","obese"],dose:"3×30s"},
+  {n:"Dancing / shadow boxing",where:"home",grp:"cardio",int:2,avoid:[],dose:"10 min"},
+
+  // COOLDOWN / MOBILITY
+  {n:"Hamstring stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side"},
+  {n:"Quad & hip-flexor stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side"},
+  {n:"Chest & shoulder stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s"},
+  {n:"Child's pose / gentle back stretch",where:"both",grp:"cool",int:1,avoid:["pregnancy"],dose:"45s"},
+  {n:"Deep breathing",where:"both",grp:"cool",int:1,avoid:[],dose:"2 min"},
+];
+
+const COND_LABEL = {back:"Back pain",knee:"Knee/joint",heart:"Hypertension/heart",
+  diabetes:"Diabetes",obese:"Overweight",asthma:"Asthma",pregnancy:"Pregnancy"};
+
+/* condition-specific safety notes */
+const COND_NOTES = {
+  back:{t:"warn",m:"Back pain: keep a neutral spine, avoid heavy spinal loading and full crunches. Stop if pain radiates down a leg."},
+  knee:{t:"warn",m:"Knee/joint issues: stay in a pain-free range, avoid deep squats and jumping. Low-impact cardio (bike/elliptical) preferred."},
+  heart:{t:"danger",m:"Hypertension/heart: avoid breath-holding and max lifts. Keep effort conversational, monitor BP, and get medical clearance first."},
+  diabetes:{t:"info",m:"Diabetes: check blood sugar before/after, carry a fast carb, stay hydrated, and don't exercise if sugar is very high/low."},
+  obese:{t:"info",m:"Overweight/obesity: favour low-impact movement to protect joints; build duration gradually. Consistency beats intensity."},
+  asthma:{t:"info",m:"Asthma: keep your inhaler nearby, warm up longer, and reduce intensity on high-pollution/cold days."},
+  pregnancy:{t:"danger",m:"Pregnancy: avoid supine core work after 1st trimester, lying-on-back, jumping and overheating. Follow your obstetrician's guidance."},
+};
+
+let selected = new Set(["none"]);
+
+/* chip toggle */
+document.getElementById("conditions").addEventListener("click",e=>{
+  const chip=e.target.closest(".chip"); if(!chip)return;
+  const c=chip.dataset.c;
+  if(c==="none"){selected=new Set(["none"]);}
+  else{selected.delete("none"); selected.has(c)?selected.delete(c):selected.add(c); if(selected.size===0)selected.add("none");}
+  [...document.querySelectorAll("#conditions .chip")].forEach(ch=>{
+    ch.classList.toggle("on",selected.has(ch.dataset.c));
+  });
+});
+
+/* tabs */
+document.querySelector(".tabs")?.addEventListener("click",()=>{});
+document.addEventListener("click",e=>{
+  const tab=e.target.closest(".tab"); if(!tab)return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+  tab.classList.add("on");
+  const g=tab.dataset.tab==="gym";
+  document.getElementById("planGym").classList.toggle("hidden",!g);
+  document.getElementById("planHome").classList.toggle("hidden",g);
+});
+
+function ageBand(a){
+  if(a<18)return"teen"; if(a<40)return"adult"; if(a<60)return"middle"; return"senior";
+}
+/* deterministic daily rotation so plan changes each day but is stable within a day */
+function daySeed(){const d=new Date();return d.getFullYear()*1000+ (Math.floor((d-new Date(d.getFullYear(),0,0))/864e5));}
+function rotate(arr,offset){if(arr.length===0)return arr;const o=((offset%arr.length)+arr.length)%arr.length;return arr.slice(o).concat(arr.slice(0,o));}
+
+function buildPlan(where,opts){
+  const {conds,band,goal,level}=opts;
+  const seed=daySeed();
+  const maxInt = conds.includes("heart")||conds.includes("pregnancy") ? 1
+               : (band==="senior"||conds.includes("knee")||conds.includes("obese")||conds.includes("asthma")) ? 2 : 3;
+
+  const pick=(grp,count)=>{
+    let pool=LIB.filter(x=>x.grp===grp && (x.where===where||x.where==="both"))
+                .filter(x=>!x.avoid.some(a=>conds.includes(a)))
+                .filter(x=>x.int<=maxInt);
+    pool=rotate(pool,seed+grp.length); // vary by day
+    return pool.slice(0,count);
+  };
+
+  // volume by level/goal
+  const strengthN = level==="advanced"?4:level==="intermediate"?3:3;
+  const coreN = band==="senior"?1:2;
+  let cardioN = goal==="fatloss"?2:1;
+  if(band==="senior")cardioN=1;
+
+  return {
+    warmup: pick("warmup",3),
+    lower:  pick("lower", goal==="muscle"?2:2),
+    upper:  pick("upper", goal==="muscle"?3:2),
+    core:   pick("core", coreN),
+    cardio: pick("cardio", cardioN),
+    cool:   pick("cool",3),
+  };
+}
+
+function exRow(x){
+  return `<div class="ex"><div><h4>${x.n}</h4><small>${x.grp.toUpperCase()} · impact ${"●".repeat(x.int)}${"○".repeat(3-x.int)}</small></div><div class="dose">${x.dose}</div></div>`;
+}
+function block(title,arr){
+  if(!arr.length)return"";
+  return `<div class="section-title">${title}</div>`+arr.map(exRow).join("");
+}
+function renderPlan(p){
+  return block("Warm-up (do first)",p.warmup)
+       + block("Lower body",p.lower)
+       + block("Upper body",p.upper)
+       + block("Core",p.core)
+       + block("Cardio / conditioning",p.cardio)
+       + block("Cool-down & stretch",p.cool);
+}
+
+document.getElementById("go").addEventListener("click",()=>{
+  const gender=document.getElementById("gender").value;
+  const age=Math.max(10,Math.min(100,parseInt(document.getElementById("age").value)||30));
+  const goal=document.getElementById("goal").value;
+  const level=document.getElementById("level").value;
+  const conds=[...selected].filter(c=>c!=="none");
+  const band=ageBand(age);
+  const opts={conds,band,goal,level};
+
+  // summary pills
+  const bandLabel={teen:"Teen",adult:"Young adult",middle:"Middle age",senior:"Senior (60+)"}[band];
+  const goalLabel={general:"General fitness",fatloss:"Fat loss",muscle:"Muscle/strength",mobility:"Mobility"}[goal];
+  document.getElementById("summary").innerHTML=
+    `<div class="pill"><b>${gender[0].toUpperCase()+gender.slice(1)}</b></div>`+
+    `<div class="pill">Age <b>${age}</b> · ${bandLabel}</div>`+
+    `<div class="pill">Goal <b>${goalLabel}</b></div>`+
+    `<div class="pill">Level <b>${level}</b></div>`+
+    `<div class="pill">Conditions <b>${conds.length?conds.map(c=>COND_LABEL[c]).join(", "):"None"}</b></div>`;
+
+  // notes
+  let notes=`<div class="note info">📅 Today's plan (rotates daily). Rest 45–90s between sets, hydrate, and stop if you feel pain, dizziness or breathlessness.</div>`;
+  if(band==="senior")notes+=`<div class="note info">👴 Age 60+: gentler progression, balance & mobility focus, longer warm-up. Use support for standing moves if needed.</div>`;
+  if(band==="teen")notes+=`<div class="note info">🧒 Teen: focus on form and bodyweight skills over heavy loads while still growing.</div>`;
+  if(gender==="female")notes+=`<div class="note info">🚺 Tip: hip, glute & posterior-chain work plus 2–3× weekly strength supports bone density.</div>`;
+  conds.forEach(c=>{const k=COND_NOTES[c]; if(k)notes+=`<div class="note ${k.t}">⚠️ ${k.m}</div>`;});
+  document.getElementById("globalNotes").innerHTML=notes;
+
+  document.getElementById("planGym").innerHTML=renderPlan(buildPlan("gym",opts));
+  document.getElementById("planHome").innerHTML=renderPlan(buildPlan("home",opts));
+
+  document.getElementById("output").classList.remove("hidden");
+  document.querySelector('.tab[data-tab="gym"]').classList.add("on");
+  document.querySelector('.tab[data-tab="home"]').classList.remove("on");
+  document.getElementById("planGym").classList.remove("hidden");
+  document.getElementById("planHome").classList.add("hidden");
+  document.getElementById("output").scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body>
+</html>
