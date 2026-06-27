@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DailyFit — Personalised Daily Exercise Plan</title>
-<meta name="description" content="Free daily exercise plans for gym or home, tailored to your gender, age and health conditions. Track streaks, time workouts, see how-to tips." />
+<meta name="description" content="Free daily exercise plans for gym or home, tailored to your gender, age and health conditions. Streaks, badges, rest timer, water & protein tracker, weight log. English & Hindi." />
 <meta name="theme-color" content="#5b8cff" />
 <link rel="apple-touch-icon" href="icon-180.png" />
 <link rel="icon" type="image/png" href="icon-192.png" />
@@ -29,6 +29,8 @@
     color:var(--accent2);font-size:12px;padding:3px 10px;border-radius:999px;margin-top:10px}
   .topbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
   .stat{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
+  .langbtn{margin-left:auto;cursor:pointer;background:#10142e;border:1px solid var(--accent);color:var(--ink);
+    border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.25)}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
@@ -48,9 +50,9 @@
   .btn.wa{background:linear-gradient(120deg,#25d366,#1aa851)}
   .btn.ghost{background:#10142e;border:1px solid var(--line);color:var(--ink)}
   .shareRow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
-  .tabs{display:flex;gap:8px;margin-top:6px}
-  .tab{flex:1;text-align:center;cursor:pointer;padding:12px 6px;border-radius:12px;border:1px solid var(--line);
-    background:#10142e;font-weight:700;color:var(--mut);font-size:14px}
+  .tabs{display:flex;gap:6px;margin-top:6px}
+  .tab{flex:1;text-align:center;cursor:pointer;padding:11px 4px;border-radius:12px;border:1px solid var(--line);
+    background:#10142e;font-weight:700;color:var(--mut);font-size:13px}
   .tab.on{background:var(--card2);color:var(--ink);border-color:var(--accent)}
   .section-title{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--accent2);margin:18px 0 8px}
   .ex{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;
@@ -83,16 +85,31 @@
   .wday{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--card2)}
   .wday.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
   .wday.rest{background:#161b35}
-  .wday h4{margin:0 0 4px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+  .wday h4{margin:0 0 4px;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .wday .focus{color:var(--accent2);font-weight:700;font-size:13px}
   .wday ul{margin:8px 0 0;padding-left:18px;color:var(--mut);font-size:13px;line-height:1.6}
+  /* Me tab */
+  .subcard{border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:14px;background:var(--card2)}
+  .subcard h3{margin:0 0 10px;font-size:16px}
+  .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+  .bg{border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;background:#10142e;opacity:.4}
+  .bg.earned{opacity:1;background:linear-gradient(120deg,#1c2348,#243a55);border-color:var(--accent2)}
+  .bg .em{font-size:26px}
+  .bg .nm{font-size:11px;font-weight:700;margin-top:4px;line-height:1.2}
+  .counter{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .counter .num{font-size:30px;font-weight:800;min-width:120px}
+  .counter button{cursor:pointer;border:none;border-radius:10px;width:44px;height:44px;font-size:22px;font-weight:800;
+    background:var(--accent);color:#fff}
+  .counter button.minus{background:#36406e}
+  .glassbar{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+  .glass{font-size:22px;opacity:.3}
+  .glass.full{opacity:1}
   .hidden{display:none}
   .foot{color:var(--mut);font-size:12px;margin-top:22px;line-height:1.6}
   .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#23b98c;color:#fff;
     padding:12px 18px;border-radius:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;
     transition:.25s;pointer-events:none;z-index:60;text-align:center;max-width:90%}
   .toast.show{opacity:1}
-  /* rest timer */
   .fab{position:fixed;right:18px;bottom:22px;z-index:55;border:none;cursor:pointer;border-radius:999px;
     padding:14px 18px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(120deg,var(--accent),#7aa2ff);
     box-shadow:0 8px 24px rgba(0,0,0,.4)}
@@ -104,7 +121,7 @@
   .timerCard button{cursor:pointer;border:none;border-radius:10px;padding:9px 12px;font-weight:700;font-size:13px}
   @media print{
     body{background:#fff;color:#000}
-    .card,.ex,.wday{box-shadow:none;background:#fff !important;border-color:#ccc}
+    .card,.ex,.wday,.subcard{box-shadow:none;background:#fff !important;border-color:#ccc}
     .ex .tip{display:block !important}
     #inputCard,.topbar,.shareRow,.tabs,.fab,.timerCard,.toast,.badge,.planhead .right,.cbx{display:none !important}
     .ex{opacity:1 !important}
@@ -115,14 +132,15 @@
 <div class="wrap">
   <header>
     <h1>🏋️ DailyFit</h1>
-    <p>Your daily exercise plan — tailored to gender, age &amp; health conditions. Gym and Home shown separately.</p>
-    <span class="badge">Educational tool · not medical advice</span>
+    <p id="tagline"></p>
+    <span class="badge" id="badgeLine"></span>
     <div class="topbar">
-      <span class="stat" id="streakStat">🔥 0-day streak</span>
-      <span class="stat" id="totalStat">🏅 0 workouts</span>
+      <span class="stat" id="streakStat"></span>
+      <span class="stat" id="totalStat"></span>
+      <button class="langbtn" id="langBtn"></button>
     </div>
     <div class="shareRow">
-      <button class="btn green sm" id="shareBtn">📲 Share app</button>
+      <button class="btn green sm" id="shareBtn"></button>
       <button class="btn wa sm" id="waBtn">WhatsApp</button>
     </div>
   </header>
@@ -130,60 +148,30 @@
   <!-- INPUT -->
   <div class="card" id="inputCard">
     <div class="grid">
-      <div>
-        <label>Gender</label>
-        <select id="gender">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other / Prefer not to say</option>
-        </select>
-      </div>
-      <div>
-        <label>Age (years)</label>
-        <input id="age" type="number" min="10" max="100" value="30" />
-      </div>
-      <div>
-        <label>Primary Goal</label>
-        <select id="goal">
-          <option value="general">General fitness</option>
-          <option value="fatloss">Weight / fat loss</option>
-          <option value="muscle">Muscle &amp; strength</option>
-          <option value="mobility">Mobility &amp; flexibility</option>
-        </select>
-      </div>
-      <div>
-        <label>Experience</label>
-        <select id="level">
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </div>
-      <div>
-        <label>Height (cm) <span style="font-weight:400">· optional</span></label>
-        <input id="height" type="number" min="100" max="230" placeholder="e.g. 170" />
-      </div>
-      <div>
-        <label>Weight (kg) <span style="font-weight:400">· optional</span></label>
-        <input id="weight" type="number" min="30" max="250" placeholder="e.g. 70" />
-      </div>
+      <div><label id="lblGender"></label>
+        <select id="gender"><option value="male"></option><option value="female"></option><option value="other"></option></select></div>
+      <div><label id="lblAge"></label><input id="age" type="number" min="10" max="100" value="30" /></div>
+      <div><label id="lblGoal"></label>
+        <select id="goal"><option value="general"></option><option value="fatloss"></option><option value="muscle"></option><option value="mobility"></option></select></div>
+      <div><label id="lblExp"></label>
+        <select id="level"><option value="beginner"></option><option value="intermediate"></option><option value="advanced"></option></select></div>
+      <div><label id="lblHeight"></label><input id="height" type="number" min="100" max="230" placeholder="e.g. 170" /></div>
+      <div><label id="lblWeight"></label><input id="weight" type="number" min="30" max="250" placeholder="e.g. 70" /></div>
     </div>
-
     <div style="margin-top:18px">
-      <label>Health Conditions (select all that apply)</label>
+      <label id="lblConditions"></label>
       <div class="chips" id="conditions">
-        <span class="chip on" data-c="none">None</span>
-        <span class="chip" data-c="back">Back pain</span>
-        <span class="chip" data-c="knee">Knee / joint issues</span>
-        <span class="chip" data-c="heart">Hypertension / heart</span>
-        <span class="chip" data-c="diabetes">Diabetes</span>
-        <span class="chip" data-c="obese">Overweight / obesity</span>
-        <span class="chip" data-c="asthma">Asthma / breathing</span>
-        <span class="chip" data-c="pregnancy">Pregnancy</span>
+        <span class="chip on" data-c="none"></span>
+        <span class="chip" data-c="back"></span>
+        <span class="chip" data-c="knee"></span>
+        <span class="chip" data-c="heart"></span>
+        <span class="chip" data-c="diabetes"></span>
+        <span class="chip" data-c="obese"></span>
+        <span class="chip" data-c="asthma"></span>
+        <span class="chip" data-c="pregnancy"></span>
       </div>
     </div>
-
-    <button class="btn" id="go">Generate today's plan →</button>
+    <button class="btn" id="go"></button>
   </div>
 
   <!-- OUTPUT -->
@@ -191,121 +179,213 @@
     <div class="card">
       <div class="summary" id="summary"></div>
       <div id="globalNotes" style="margin-top:14px"></div>
-
       <div class="shareRow" style="margin-top:16px">
-        <button class="btn ghost sm" id="editBtn">✏️ Edit profile</button>
-        <button class="btn green sm" id="sharePlanBtn">📤 Share today's plan</button>
-        <button class="btn ghost sm" id="printBtn">🖨️ Print / Save</button>
+        <button class="btn ghost sm" id="editBtn"></button>
+        <button class="btn green sm" id="sharePlanBtn"></button>
+        <button class="btn ghost sm" id="printBtn"></button>
       </div>
-
       <div class="tabs" style="margin-top:16px">
-        <div class="tab on" data-tab="gym">🏟️ Gym</div>
-        <div class="tab" data-tab="home">🏠 Home</div>
-        <div class="tab" data-tab="week">🗓️ Week</div>
+        <div class="tab on" data-tab="gym"></div>
+        <div class="tab" data-tab="home"></div>
+        <div class="tab" data-tab="week"></div>
+        <div class="tab" data-tab="me"></div>
       </div>
       <div id="planGym"></div>
       <div id="planHome" class="hidden"></div>
       <div id="planWeek" class="hidden"></div>
+      <div id="planMe" class="hidden"></div>
     </div>
   </div>
 
-  <div class="foot">
-    ⚠️ <b>Disclaimer:</b> DailyFit gives general fitness suggestions only and is not a substitute for professional
-    medical or training advice. If you have any medical condition, are pregnant, feel pain, dizziness or chest
-    discomfort — stop and consult a doctor before starting. Plans rotate by day so each day differs. Your data is
-    saved only on this device.
-  </div>
+  <div class="foot" id="disclaimer"></div>
 </div>
 
 <!-- Rest timer -->
 <div class="timerCard" id="timerCard">
-  <div style="font-size:13px;color:var(--mut);font-weight:700">REST TIMER</div>
-  <div class="big" id="timerDisplay">0:60</div>
+  <div style="font-size:13px;color:var(--mut);font-weight:700" id="tTitle"></div>
+  <div class="big" id="timerDisplay">1:00</div>
   <div class="row">
-    <button class="btn green sm" id="tStart" style="margin:0">Start</button>
-    <button class="btn ghost sm" id="tReset" style="margin:0">Reset</button>
+    <button class="btn green sm" id="tStart" style="margin:0"></button>
+    <button class="btn ghost sm" id="tReset" style="margin:0"></button>
   </div>
   <div class="row" style="margin-top:8px">
     <button class="btn ghost sm" id="tMinus" style="margin:0">−15s</button>
     <button class="btn ghost sm" id="tPlus" style="margin:0">+15s</button>
   </div>
 </div>
-<button class="fab" id="timerFab">⏱️ Rest</button>
-
+<button class="fab" id="timerFab"></button>
 <div class="toast" id="toast"></div>
 
 <script>
-/* ===================== Exercise library =====================
-   n=name, where=gym|home|both, grp, int(1-3), avoid[], dose, mus(target), tip(form cue) */
+/* ===================== i18n ===================== */
+const I18N={
+  en:{
+    tagline:"Your daily exercise plan — tailored to gender, age & health conditions. Gym and Home shown separately.",
+    badge:"Educational tool · not medical advice",
+    shareApp:"📲 Share app", lang:"हिंदी",
+    lblGender:"Gender", lblAge:"Age (years)", lblGoal:"Primary Goal", lblExp:"Experience",
+    lblHeight:'Height (cm) <span style="font-weight:400">· optional</span>',
+    lblWeight:'Weight (kg) <span style="font-weight:400">· optional</span>',
+    lblConditions:"Health Conditions (select all that apply)",
+    gender:["Male","Female","Other / Prefer not to say"],
+    goal:["General fitness","Weight / fat loss","Muscle & strength","Mobility & flexibility"],
+    level:["Beginner","Intermediate","Advanced"],
+    chips:{none:"None",back:"Back pain",knee:"Knee / joint issues",heart:"Hypertension / heart",diabetes:"Diabetes",obese:"Overweight / obesity",asthma:"Asthma / breathing",pregnancy:"Pregnancy"},
+    generate:"Generate today's plan →",
+    edit:"✏️ Edit profile", sharePlan:"📤 Share today's plan", print:"🖨️ Print / Save",
+    tabs:{gym:"🏟️ Gym",home:"🏠 Home",week:"🗓️ Week",me:"📊 Me"},
+    band:{teen:"Teen",adult:"Young adult",middle:"Middle age",senior:"Senior (60+)"},
+    goalShort:{general:"General fitness",fatloss:"Fat loss",muscle:"Muscle/strength",mobility:"Mobility"},
+    genderShort:{male:"Male",female:"Female",other:"Other"},
+    condShort:{back:"Back pain",knee:"Knee/joint",heart:"BP/heart",diabetes:"Diabetes",obese:"Overweight",asthma:"Asthma",pregnancy:"Pregnancy"},
+    bmiCat:{u:"Underweight",h:"Healthy",o:"Overweight",ob:"Obese"},
+    pAge:"Age",pGoal:"Goal",pLevel:"Level",pCond:"Conditions",pNone:"None",
+    secTitles:{warmup:"Warm-up (do first)",lower:"Lower body",upper:"Upper body",core:"Core",cardio:"Cardio / conditioning",cool:"Cool-down & stretch"},
+    grp:{warmup:"WARM-UP",lower:"LOWER",upper:"UPPER",core:"CORE",cardio:"CARDIO",cool:"COOL-DOWN"},
+    howto:"ⓘ tap for how-to", impact:"impact",
+    gymWorkout:"🏟️ Gym workout", homeWorkout:"🏠 Home workout", min:"min",
+    markAll:"Mark all done", reset:"Reset", done:"done", complete:"🎉 Workout complete!",
+    noteMain:"📅 Today's plan (rotates daily). Rest 45–90s between sets, hydrate, and stop if you feel pain, dizziness or breathlessness. Tap a tick to log each exercise.",
+    noteSenior:"👴 Age 60+: gentler progression, balance & mobility focus, longer warm-up. Use support for standing moves if needed.",
+    noteTeen:"🧒 Teen: focus on form and bodyweight skills over heavy loads while still growing.",
+    noteFemale:"🚺 Tip: hip, glute & posterior-chain work plus 2–3× weekly strength supports bone density.",
+    weekIntro:(w)=>`A balanced 7-day split for <b>${w}</b> · today is highlighted. Rest days matter — that's when you get stronger.`,
+    forTheGym:"the gym", forHome:"home",
+    days:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], today:"Today", restDay:"😴 Rest",
+    restText:"Light walk, stretching or full rest. Stay hydrated. 🚶",
+    focus:{full:"Full body",cardiocore:"Cardio + Core",restwalk:"Rest / walk",upper:"Upper body",lower:"Lower body",cardio:"Cardio",rest:"Rest",mobcore:"Mobility + Core",cardioeasy:"Cardio (easy)"},
+    tTitle:"REST TIMER", tStart:"Start", tPause:"Pause", tReset:"Reset", fab:"⏱️ Rest", restOver:"⏱️ Rest over — next set!",
+    disclaimer:"⚠️ <b>Disclaimer:</b> DailyFit gives general fitness suggestions only and is not a substitute for professional medical or training advice. If you have any medical condition, are pregnant, feel pain, dizziness or chest discomfort — stop and consult a doctor before starting. Your data is saved only on this device.",
+    meBadges:"🏅 Badges", meWeight:"⚖️ Weight log", meWater:"💧 Water", meProtein:"🥩 Protein",
+    waterSub:(t)=>`Glasses today · target ${t} (250 ml each)`, glasses:"glasses",
+    proteinSub:(t)=>t?`Grams today · target ${t} g (1.6 g/kg)`:"Add your weight in profile to get a target.", grams:"g",
+    logWeight:"Log today's weight (kg)", add:"Add", latest:"Latest", change:"Change", noWeight:"No weight logged yet — add one above.",
+    badgeNames:{first:"First Workout",s3:"3-Day Streak",s7:"Week Warrior",s14:"Fortnight Fit",s30:"Monthly Master",w10:"10 Workouts",w25:"25 Workouts",w50:"50 Workouts"},
+    newBadge:(n)=>`🏅 New badge: ${n}!`,
+    shareMsg:"Sharing a free daily workout app I'm using 💪 — pick your gender, age & health conditions and it gives separate Gym & Home plans for the day. No sign-up, works on any phone:",
+    planTitle:(w,d)=>`🏋️ My DailyFit ${w} plan (${d}):`, makeYours:"Make your own:",
+    copied:"Link copied — paste & send!", planCopied:"Plan copied — paste & send!",
+  },
+  hi:{
+    tagline:"आपका रोज़ का व्यायाम प्लान — लिंग, उम्र और स्वास्थ्य स्थिति के अनुसार। जिम और घर अलग-अलग।",
+    badge:"शैक्षिक टूल · चिकित्सा सलाह नहीं",
+    shareApp:"📲 ऐप शेयर करें", lang:"English",
+    lblGender:"लिंग", lblAge:"उम्र (वर्ष)", lblGoal:"मुख्य लक्ष्य", lblExp:"अनुभव",
+    lblHeight:'लंबाई (सेमी) <span style="font-weight:400">· वैकल्पिक</span>',
+    lblWeight:'वजन (कि.ग्रा.) <span style="font-weight:400">· वैकल्पिक</span>',
+    lblConditions:"स्वास्थ्य स्थितियाँ (जो लागू हों चुनें)",
+    gender:["पुरुष","महिला","अन्य / बताना नहीं चाहते"],
+    goal:["सामान्य फिटनेस","वजन / चर्बी घटाना","मांसपेशी और ताकत","लचीलापन और गतिशीलता"],
+    level:["शुरुआती","मध्यम","उन्नत"],
+    chips:{none:"कोई नहीं",back:"कमर दर्द",knee:"घुटना / जोड़",heart:"उच्च रक्तचाप / हृदय",diabetes:"मधुमेह",obese:"अधिक वजन / मोटापा",asthma:"दमा / सांस",pregnancy:"गर्भावस्था"},
+    generate:"आज का प्लान बनाएं →",
+    edit:"✏️ प्रोफ़ाइल बदलें", sharePlan:"📤 आज का प्लान शेयर करें", print:"🖨️ प्रिंट / सेव",
+    tabs:{gym:"🏟️ जिम",home:"🏠 घर",week:"🗓️ सप्ताह",me:"📊 मैं"},
+    band:{teen:"किशोर",adult:"युवा वयस्क",middle:"मध्य आयु",senior:"वरिष्ठ (60+)"},
+    goalShort:{general:"सामान्य फिटनेस",fatloss:"चर्बी घटाना",muscle:"मांसपेशी/ताकत",mobility:"लचीलापन"},
+    genderShort:{male:"पुरुष",female:"महिला",other:"अन्य"},
+    condShort:{back:"कमर दर्द",knee:"घुटना/जोड़",heart:"रक्तचाप/हृदय",diabetes:"मधुमेह",obese:"मोटापा",asthma:"दमा",pregnancy:"गर्भावस्था"},
+    bmiCat:{u:"कम वजन",h:"स्वस्थ",o:"अधिक वजन",ob:"मोटापा"},
+    pAge:"उम्र",pGoal:"लक्ष्य",pLevel:"स्तर",pCond:"स्थितियाँ",pNone:"कोई नहीं",
+    secTitles:{warmup:"वार्म-अप (पहले करें)",lower:"निचला शरीर",upper:"ऊपरी शरीर",core:"कोर",cardio:"कार्डियो / कंडीशनिंग",cool:"कूल-डाउन और स्ट्रेच"},
+    grp:{warmup:"वार्म-अप",lower:"निचला",upper:"ऊपरी",core:"कोर",cardio:"कार्डियो",cool:"कूल-डाउन"},
+    howto:"ⓘ तरीका देखने हेतु टैप करें", impact:"प्रभाव",
+    gymWorkout:"🏟️ जिम वर्कआउट", homeWorkout:"🏠 घर वर्कआउट", min:"मिनट",
+    markAll:"सभी पूर्ण करें", reset:"रीसेट", done:"पूर्ण", complete:"🎉 वर्कआउट पूरा!",
+    noteMain:"📅 आज का प्लान (रोज़ बदलता है)। सेट के बीच 45–90 सेकंड आराम करें, पानी पिएं, और दर्द/चक्कर/सांस फूलने पर रुक जाएं। हर व्यायाम दर्ज करने हेतु टिक करें।",
+    noteSenior:"👴 60+ उम्र: धीरे-धीरे बढ़ाएं, संतुलन व लचीलापन पर ध्यान, लंबा वार्म-अप। ज़रूरत हो तो सहारा लें।",
+    noteTeen:"🧒 किशोर: बढ़ती उम्र में भारी वजन से ज़्यादा सही तकनीक और बॉडीवेट पर ध्यान दें।",
+    noteFemale:"🚺 सुझाव: कूल्हे, ग्लूट्स व पिछली चेन का व्यायाम और सप्ताह में 2–3 बार स्ट्रेंथ हड्डियों के लिए अच्छा है।",
+    weekIntro:(w)=>`<b>${w}</b> के लिए संतुलित 7-दिन का प्लान · आज हाइलाइट है। आराम के दिन ज़रूरी हैं — तभी ताकत बढ़ती है।`,
+    forTheGym:"जिम", forHome:"घर",
+    days:["सोम","मंगल","बुध","गुरु","शुक्र","शनि","रवि"], today:"आज", restDay:"😴 आराम",
+    restText:"हल्की वॉक, स्ट्रेचिंग या पूरा आराम। पानी पीते रहें। 🚶",
+    focus:{full:"पूरा शरीर",cardiocore:"कार्डियो + कोर",restwalk:"आराम / वॉक",upper:"ऊपरी शरीर",lower:"निचला शरीर",cardio:"कार्डियो",rest:"आराम",mobcore:"मोबिलिटी + कोर",cardioeasy:"कार्डियो (आसान)"},
+    tTitle:"रेस्ट टाइमर", tStart:"शुरू", tPause:"रोकें", tReset:"रीसेट", fab:"⏱️ आराम", restOver:"⏱️ आराम खत्म — अगला सेट!",
+    disclaimer:"⚠️ <b>अस्वीकरण:</b> DailyFit केवल सामान्य फिटनेस सुझाव देता है और किसी पेशेवर चिकित्सा या प्रशिक्षण सलाह का विकल्प नहीं है। कोई बीमारी हो, गर्भवती हों, या दर्द/चक्कर/सीने में तकलीफ़ हो — रुकें और डॉक्टर से सलाह लें। आपका डेटा केवल इसी डिवाइस पर सहेजा जाता है।",
+    meBadges:"🏅 बैज", meWeight:"⚖️ वजन लॉग", meWater:"💧 पानी", meProtein:"🥩 प्रोटीन",
+    waterSub:(t)=>`आज के गिलास · लक्ष्य ${t} (250 मि.ली. प्रत्येक)`, glasses:"गिलास",
+    proteinSub:(t)=>t?`आज के ग्राम · लक्ष्य ${t} ग्राम (1.6 ग्रा./कि.ग्रा.)`:"लक्ष्य पाने हेतु प्रोफ़ाइल में अपना वजन भरें।", grams:"ग्राम",
+    logWeight:"आज का वजन दर्ज करें (कि.ग्रा.)", add:"जोड़ें", latest:"नवीनतम", change:"बदलाव", noWeight:"अभी कोई वजन दर्ज नहीं — ऊपर जोड़ें।",
+    badgeNames:{first:"पहला वर्कआउट",s3:"3-दिन स्ट्रीक",s7:"सप्ताह योद्धा",s14:"पखवाड़ा फिट",s30:"मासिक मास्टर",w10:"10 वर्कआउट",w25:"25 वर्कआउट",w50:"50 वर्कआउट"},
+    newBadge:(n)=>`🏅 नया बैज: ${n}!`,
+    shareMsg:"एक फ्री रोज़ाना वर्कआउट ऐप शेयर कर रहा/रही हूँ 💪 — अपना लिंग, उम्र व स्वास्थ्य स्थिति चुनें और दिन का अलग जिम व घर प्लान पाएं। कोई साइन-अप नहीं, हर फोन पर चलता है:",
+    planTitle:(w,d)=>`🏋️ मेरा DailyFit ${w} प्लान (${d}):`, makeYours:"अपना बनाएं:",
+    copied:"लिंक कॉपी हो गया — पेस्ट कर भेजें!", planCopied:"प्लान कॉपी हो गया — पेस्ट कर भेजें!",
+  }
+};
+let lang = (function(){ try{ return localStorage.getItem("df_lang")||"en"; }catch(e){ return "en"; } })();
+const T = k => I18N[lang][k];
+
+/* ===================== Exercise library ===================== */
 const LIB = [
-  // WARMUP
-  {n:"March in place / brisk walk",where:"both",grp:"warmup",int:1,avoid:[],dose:"5 min",mus:"Full body",tip:"Pump your arms and gradually raise your knees to lift your heart rate."},
-  {n:"Arm circles & shoulder rolls",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min",mus:"Shoulders",tip:"Make slow forward then backward circles; keep shoulders relaxed."},
-  {n:"Hip & ankle circles",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min",mus:"Hips, ankles",tip:"Rotate each joint both directions to loosen up before loading."},
-  {n:"Treadmill easy walk incline",where:"gym",grp:"warmup",int:1,avoid:[],dose:"6 min",mus:"Legs, heart",tip:"Slight incline, conversational pace — just warming the muscles."},
-  {n:"Cat–cow spine mobility",where:"both",grp:"warmup",int:1,avoid:[],dose:"8 reps",mus:"Spine",tip:"On all fours, alternate arching and rounding your back with your breath."},
+  {n:"March in place / brisk walk",nh:"जगह पर मार्च / तेज़ वॉक",where:"both",grp:"warmup",int:1,avoid:[],dose:"5 min",mus:"Full body",mush:"पूरा शरीर",tip:"Pump your arms and gradually raise your knees to lift your heart rate.",tiph:"बाहें चलाएं और धीरे-धीरे घुटने ऊपर उठाएं ताकि हृदय गति बढ़े।"},
+  {n:"Arm circles & shoulder rolls",nh:"बांह घुमाव व कंधा रोल",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min",mus:"Shoulders",mush:"कंधे",tip:"Make slow forward then backward circles; keep shoulders relaxed.",tiph:"धीरे-धीरे आगे फिर पीछे गोल घुमाएं; कंधे ढीले रखें।"},
+  {n:"Hip & ankle circles",nh:"कूल्हा व टखना घुमाव",where:"both",grp:"warmup",int:1,avoid:[],dose:"1 min",mus:"Hips, ankles",mush:"कूल्हे, टखने",tip:"Rotate each joint both directions to loosen up before loading.",tiph:"भार से पहले हर जोड़ को दोनों दिशाओं में घुमाकर ढीला करें।"},
+  {n:"Treadmill easy walk incline",nh:"ट्रेडमिल आसान ढलान वॉक",where:"gym",grp:"warmup",int:1,avoid:[],dose:"6 min",mus:"Legs, heart",mush:"पैर, हृदय",tip:"Slight incline, conversational pace — just warming the muscles.",tiph:"हल्की ढलान, ऐसी गति कि बात कर सकें — बस मांसपेशियाँ गर्म करें।"},
+  {n:"Cat–cow spine mobility",nh:"कैट-काउ रीढ़ मोबिलिटी",where:"both",grp:"warmup",int:1,avoid:[],dose:"8 reps",mus:"Spine",mush:"रीढ़",tip:"On all fours, alternate arching and rounding your back with your breath.",tiph:"चारों हाथ-पैर पर, सांस के साथ पीठ को बारी-बारी झुकाएं व गोल करें।"},
 
-  // LOWER BODY
-  {n:"Bodyweight squat",where:"home",grp:"lower",int:2,avoid:["knee"],dose:"3×12",mus:"Quads, glutes",tip:"Sit back like onto a chair, knees track over toes, chest up."},
-  {n:"Chair sit-to-stand",where:"home",grp:"lower",int:1,avoid:[],dose:"3×10",mus:"Quads, glutes",tip:"Stand fully then lower slowly; great low-impact squat alternative."},
-  {n:"Leg press machine",where:"gym",grp:"lower",int:2,avoid:["knee"],dose:"3×12",mus:"Quads, glutes",tip:"Don't lock knees at the top; lower until ~90° under control."},
-  {n:"Goblet squat (dumbbell)",where:"gym",grp:"lower",int:2,avoid:["knee","back"],dose:"3×10",mus:"Quads, glutes, core",tip:"Hold a dumbbell at your chest, elbows inside knees, sit tall."},
-  {n:"Glute bridge",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15",mus:"Glutes, hamstrings",tip:"Lie on back, drive hips up, squeeze glutes at the top, don't arch low back."},
-  {n:"Standing calf raise",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15",mus:"Calves",tip:"Rise onto toes slowly, pause, lower with control; hold a wall for balance."},
-  {n:"Wall sit",where:"home",grp:"lower",int:2,avoid:["knee","heart"],dose:"3×30s",mus:"Quads",tip:"Back flat on wall, thighs parallel to floor, breathe normally."},
-  {n:"Seated leg extension (machine)",where:"gym",grp:"lower",int:1,avoid:[],dose:"3×12",mus:"Quads",tip:"Straighten knees smoothly, squeeze at top, lower slowly — no swinging."},
+  {n:"Bodyweight squat",nh:"बॉडीवेट स्क्वाट",where:"home",grp:"lower",int:2,avoid:["knee"],dose:"3×12",mus:"Quads, glutes",mush:"जांघ, ग्लूट्स",tip:"Sit back like onto a chair, knees track over toes, chest up.",tiph:"कुर्सी पर बैठने जैसा पीछे बैठें, घुटने पंजों की दिशा में, छाती ऊपर।"},
+  {n:"Chair sit-to-stand",nh:"कुर्सी से उठक-बैठक",where:"home",grp:"lower",int:1,avoid:[],dose:"3×10",mus:"Quads, glutes",mush:"जांघ, ग्लूट्स",tip:"Stand fully then lower slowly; great low-impact squat alternative.",tiph:"पूरा खड़े हों फिर धीरे बैठें; कम झटके वाला बढ़िया स्क्वाट विकल्प।"},
+  {n:"Leg press machine",nh:"लेग प्रेस मशीन",where:"gym",grp:"lower",int:2,avoid:["knee"],dose:"3×12",mus:"Quads, glutes",mush:"जांघ, ग्लूट्स",tip:"Don't lock knees at the top; lower until ~90° under control.",tiph:"ऊपर घुटने पूरे सीधे न करें; नियंत्रण से ~90° तक नीचे लाएं।"},
+  {n:"Goblet squat (dumbbell)",nh:"गॉब्लेट स्क्वाट (डंबल)",where:"gym",grp:"lower",int:2,avoid:["knee","back"],dose:"3×10",mus:"Quads, glutes, core",mush:"जांघ, ग्लूट्स, कोर",tip:"Hold a dumbbell at your chest, elbows inside knees, sit tall.",tiph:"डंबल छाती पर पकड़ें, कोहनी घुटनों के अंदर, सीधे बैठें।"},
+  {n:"Glute bridge",nh:"ग्लूट ब्रिज",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15",mus:"Glutes, hamstrings",mush:"ग्लूट्स, हैमस्ट्रिंग",tip:"Lie on back, drive hips up, squeeze glutes at the top, don't arch low back.",tiph:"पीठ के बल लेटें, कूल्हे ऊपर उठाएं, ऊपर ग्लूट्स कसें, कमर ज़्यादा न मोड़ें।"},
+  {n:"Standing calf raise",nh:"खड़े होकर काफ रेज़",where:"both",grp:"lower",int:1,avoid:[],dose:"3×15",mus:"Calves",mush:"पिंडली",tip:"Rise onto toes slowly, pause, lower with control; hold a wall for balance.",tiph:"धीरे पंजों पर उठें, रुकें, नियंत्रण से नीचे; संतुलन हेतु दीवार पकड़ें।"},
+  {n:"Wall sit",nh:"वॉल सिट",where:"home",grp:"lower",int:2,avoid:["knee","heart"],dose:"3×30s",mus:"Quads",mush:"जांघ",tip:"Back flat on wall, thighs parallel to floor, breathe normally.",tiph:"पीठ दीवार से सटी, जांघें ज़मीन के समानांतर, सामान्य सांस लें।"},
+  {n:"Seated leg extension (machine)",nh:"सीटेड लेग एक्सटेंशन (मशीन)",where:"gym",grp:"lower",int:1,avoid:[],dose:"3×12",mus:"Quads",mush:"जांघ",tip:"Straighten knees smoothly, squeeze at top, lower slowly — no swinging.",tiph:"घुटने सहजता से सीधे करें, ऊपर कसें, धीरे नीचे — झटका नहीं।"},
 
-  // UPPER BODY
-  {n:"Wall / knee push-up",where:"home",grp:"upper",int:1,avoid:[],dose:"3×10",mus:"Chest, triceps",tip:"Body in a straight line; lower chest toward wall/floor, elbows ~45°."},
-  {n:"Standard push-up",where:"home",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Chest, triceps, core",tip:"Brace your core, keep a straight line head-to-heels; full range."},
-  {n:"Chest press machine",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Chest, triceps",tip:"Press without locking elbows; control the return, don't let it slam."},
-  {n:"Lat pulldown",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Back, biceps",tip:"Pull the bar to upper chest, lead with elbows, squeeze your back."},
-  {n:"Seated row machine",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Back, biceps",tip:"Pull to your belly, shoulders down, squeeze shoulder blades together."},
-  {n:"Dumbbell shoulder press",where:"gym",grp:"upper",int:2,avoid:["heart"],dose:"3×10",mus:"Shoulders",tip:"Press overhead without flaring ribs; don't hold your breath."},
-  {n:"Resistance-band row",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Back, biceps",tip:"Anchor the band, pull elbows back, squeeze shoulder blades."},
-  {n:"Doorway band chest press",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Chest",tip:"Band behind back, press hands forward and together at the end."},
-  {n:"Bicep curl (dumbbell/band)",where:"both",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Biceps",tip:"Keep elbows pinned to your sides; no swinging, lower slowly."},
+  {n:"Wall / knee push-up",nh:"दीवार / घुटना पुश-अप",where:"home",grp:"upper",int:1,avoid:[],dose:"3×10",mus:"Chest, triceps",mush:"छाती, ट्राइसेप्स",tip:"Body in a straight line; lower chest toward wall/floor, elbows ~45°.",tiph:"शरीर सीधी रेखा में; छाती दीवार/फर्श की ओर, कोहनी ~45°।"},
+  {n:"Standard push-up",nh:"साधारण पुश-अप",where:"home",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Chest, triceps, core",mush:"छाती, ट्राइसेप्स, कोर",tip:"Brace your core, keep a straight line head-to-heels; full range.",tiph:"कोर कसें, सिर से एड़ी तक सीधी रेखा; पूरी रेंज।"},
+  {n:"Chest press machine",nh:"चेस्ट प्रेस मशीन",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Chest, triceps",mush:"छाती, ट्राइसेप्स",tip:"Press without locking elbows; control the return, don't let it slam.",tiph:"कोहनी पूरी सीधी किए बिना दबाएं; वापसी नियंत्रित रखें।"},
+  {n:"Lat pulldown",nh:"लैट पुलडाउन",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Back, biceps",mush:"पीठ, बाइसेप्स",tip:"Pull the bar to upper chest, lead with elbows, squeeze your back.",tiph:"बार ऊपरी छाती तक खींचें, कोहनी आगे, पीठ कसें।"},
+  {n:"Seated row machine",nh:"सीटेड रो मशीन",where:"gym",grp:"upper",int:2,avoid:[],dose:"3×12",mus:"Back, biceps",mush:"पीठ, बाइसेप्स",tip:"Pull to your belly, shoulders down, squeeze shoulder blades together.",tiph:"पेट की ओर खींचें, कंधे नीचे, कंधे की हड्डियाँ पास लाएं।"},
+  {n:"Dumbbell shoulder press",nh:"डंबल शोल्डर प्रेस",where:"gym",grp:"upper",int:2,avoid:["heart"],dose:"3×10",mus:"Shoulders",mush:"कंधे",tip:"Press overhead without flaring ribs; don't hold your breath.",tiph:"सिर के ऊपर दबाएं, पसलियाँ बाहर न निकलें; सांस न रोकें।"},
+  {n:"Resistance-band row",nh:"रेज़िस्टेंस बैंड रो",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Back, biceps",mush:"पीठ, बाइसेप्स",tip:"Anchor the band, pull elbows back, squeeze shoulder blades.",tiph:"बैंड को टिकाएं, कोहनी पीछे खींचें, कंधे की हड्डियाँ कसें।"},
+  {n:"Doorway band chest press",nh:"दरवाज़ा बैंड चेस्ट प्रेस",where:"home",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Chest",mush:"छाती",tip:"Band behind back, press hands forward and together at the end.",tiph:"बैंड पीठ के पीछे, हाथ आगे दबाएं और अंत में पास लाएं।"},
+  {n:"Bicep curl (dumbbell/band)",nh:"बाइसेप कर्ल (डंबल/बैंड)",where:"both",grp:"upper",int:1,avoid:[],dose:"3×12",mus:"Biceps",mush:"बाइसेप्स",tip:"Keep elbows pinned to your sides; no swinging, lower slowly.",tiph:"कोहनी शरीर से सटाए रखें; झटका नहीं, धीरे नीचे।"},
 
-  // CORE
-  {n:"Dead bug",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side",mus:"Deep core",tip:"On back, lower opposite arm & leg slowly, keep low back pressed down."},
-  {n:"Bird dog",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side",mus:"Core, back",tip:"On all fours, extend opposite arm & leg, keep hips level, no wobble."},
-  {n:"Forearm plank",where:"both",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×25s",mus:"Core",tip:"Elbows under shoulders, squeeze glutes, straight line — don't sag."},
-  {n:"Side plank (knees)",where:"both",grp:"core",int:2,avoid:["pregnancy"],dose:"2×20s",mus:"Obliques",tip:"Stack body sideways on a forearm and knees; lift hips, hold steady."},
-  {n:"Standing pallof press (band)",where:"both",grp:"core",int:1,avoid:[],dose:"3×10/side",mus:"Core (anti-rotation)",tip:"Band to the side, press hands straight out and resist the twist."},
-  {n:"Crunch",where:"home",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×15",mus:"Abs",tip:"Curl shoulders up, chin off chest, exhale up — don't yank your neck."},
+  {n:"Dead bug",nh:"डेड बग",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side",mus:"Deep core",mush:"गहरा कोर",tip:"On back, lower opposite arm & leg slowly, keep low back pressed down.",tiph:"पीठ के बल, विपरीत हाथ-पैर धीरे नीचे, कमर ज़मीन से सटी रखें।"},
+  {n:"Bird dog",nh:"बर्ड डॉग",where:"both",grp:"core",int:1,avoid:[],dose:"3×8/side",mus:"Core, back",mush:"कोर, पीठ",tip:"On all fours, extend opposite arm & leg, keep hips level, no wobble.",tiph:"चारों पर, विपरीत हाथ-पैर सीधा करें, कूल्हे समतल, हिलें नहीं।"},
+  {n:"Forearm plank",nh:"फोरआर्म प्लैंक",where:"both",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×25s",mus:"Core",mush:"कोर",tip:"Elbows under shoulders, squeeze glutes, straight line — don't sag.",tiph:"कोहनी कंधों के नीचे, ग्लूट्स कसें, सीधी रेखा — ढीले न पड़ें।"},
+  {n:"Side plank (knees)",nh:"साइड प्लैंक (घुटने)",where:"both",grp:"core",int:2,avoid:["pregnancy"],dose:"2×20s",mus:"Obliques",mush:"साइड एब्स",tip:"Stack body sideways on a forearm and knees; lift hips, hold steady.",tiph:"बाजू व घुटनों पर शरीर साइड में; कूल्हे उठाएं, स्थिर रहें।"},
+  {n:"Standing pallof press (band)",nh:"पैलोफ प्रेस (बैंड)",where:"both",grp:"core",int:1,avoid:[],dose:"3×10/side",mus:"Core (anti-rotation)",mush:"कोर (एंटी-रोटेशन)",tip:"Band to the side, press hands straight out and resist the twist.",tiph:"बैंड साइड में, हाथ सीधे आगे दबाएं और मुड़ने से रोकें।"},
+  {n:"Crunch",nh:"क्रंच",where:"home",grp:"core",int:2,avoid:["back","pregnancy"],dose:"3×15",mus:"Abs",mush:"एब्स",tip:"Curl shoulders up, chin off chest, exhale up — don't yank your neck.",tiph:"कंधे ऊपर मोड़ें, ठोड़ी छाती से दूर, ऊपर सांस छोड़ें — गर्दन न खींचें।"},
 
-  // CARDIO / CONDITIONING
-  {n:"Stationary bike steady",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min",mus:"Heart, legs",tip:"Moderate pace you can talk through; adjust resistance to feel it."},
-  {n:"Elliptical cross-trainer",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min",mus:"Heart, full body",tip:"Stand tall, use the handles, smooth steady stride — low impact."},
-  {n:"Rowing machine",where:"gym",grp:"cardio",int:3,avoid:["back","heart"],dose:"10 min",mus:"Heart, back, legs",tip:"Drive with legs first, then lean back, then pull — reverse to return."},
-  {n:"Treadmill intervals",where:"gym",grp:"cardio",int:3,avoid:["knee","heart","asthma"],dose:"12 min",mus:"Heart, legs",tip:"Alternate 1 min faster / 2 min easy; stop if breathless or dizzy."},
-  {n:"Brisk walk (outdoor/indoor)",where:"home",grp:"cardio",int:1,avoid:[],dose:"20 min",mus:"Heart, legs",tip:"Walk fast enough to breathe a bit harder but still chat."},
-  {n:"Step-ups on a stair",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×12",mus:"Legs, heart",tip:"Step fully onto a low step, drive through the heel, control down."},
-  {n:"Marching high-knees",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×40s",mus:"Legs, heart",tip:"March on the spot lifting knees high; pump the arms."},
-  {n:"Jumping jacks",where:"home",grp:"cardio",int:3,avoid:["knee","heart","pregnancy","obese"],dose:"3×30s",mus:"Full body, heart",tip:"Soft landings through the knees; keep a steady rhythm."},
-  {n:"Dancing / shadow boxing",where:"home",grp:"cardio",int:2,avoid:[],dose:"10 min",mus:"Full body, heart",tip:"Keep moving to music or throw light punches — fun way to raise the pulse."},
+  {n:"Stationary bike steady",nh:"स्थिर साइकिल (स्थिर गति)",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min",mus:"Heart, legs",mush:"हृदय, पैर",tip:"Moderate pace you can talk through; adjust resistance to feel it.",tiph:"ऐसी मध्यम गति कि बात कर सकें; रेज़िस्टेंस ऐसी कि महसूस हो।"},
+  {n:"Elliptical cross-trainer",nh:"एलिप्टिकल क्रॉस-ट्रेनर",where:"gym",grp:"cardio",int:2,avoid:[],dose:"15 min",mus:"Heart, full body",mush:"हृदय, पूरा शरीर",tip:"Stand tall, use the handles, smooth steady stride — low impact.",tiph:"सीधे खड़े रहें, हैंडल पकड़ें, सहज स्थिर चाल — कम झटका।"},
+  {n:"Rowing machine",nh:"रोइंग मशीन",where:"gym",grp:"cardio",int:3,avoid:["back","heart"],dose:"10 min",mus:"Heart, back, legs",mush:"हृदय, पीठ, पैर",tip:"Drive with legs first, then lean back, then pull — reverse to return.",tiph:"पहले पैरों से धक्का, फिर पीछे झुकें, फिर खींचें — वापसी उल्टे क्रम में।"},
+  {n:"Treadmill intervals",nh:"ट्रेडमिल इंटरवल",where:"gym",grp:"cardio",int:3,avoid:["knee","heart","asthma"],dose:"12 min",mus:"Heart, legs",mush:"हृदय, पैर",tip:"Alternate 1 min faster / 2 min easy; stop if breathless or dizzy.",tiph:"1 मिनट तेज़ / 2 मिनट आसान बारी-बारी; सांस फूले या चक्कर आए तो रुकें।"},
+  {n:"Brisk walk (outdoor/indoor)",nh:"तेज़ वॉक (बाहर/अंदर)",where:"home",grp:"cardio",int:1,avoid:[],dose:"20 min",mus:"Heart, legs",mush:"हृदय, पैर",tip:"Walk fast enough to breathe a bit harder but still chat.",tiph:"इतनी तेज़ चलें कि सांस थोड़ी बढ़े पर बात कर सकें।"},
+  {n:"Step-ups on a stair",nh:"सीढ़ी पर स्टेप-अप",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×12",mus:"Legs, heart",mush:"पैर, हृदय",tip:"Step fully onto a low step, drive through the heel, control down.",tiph:"नीची सीढ़ी पर पूरा चढ़ें, एड़ी से धक्का, नियंत्रण से उतरें।"},
+  {n:"Marching high-knees",nh:"हाई-नी मार्च",where:"home",grp:"cardio",int:2,avoid:["knee"],dose:"3×40s",mus:"Legs, heart",mush:"पैर, हृदय",tip:"March on the spot lifting knees high; pump the arms.",tiph:"जगह पर घुटने ऊँचे उठाकर मार्च करें; बाहें चलाएं।"},
+  {n:"Jumping jacks",nh:"जंपिंग जैक्स",where:"home",grp:"cardio",int:3,avoid:["knee","heart","pregnancy","obese"],dose:"3×30s",mus:"Full body, heart",mush:"पूरा शरीर, हृदय",tip:"Soft landings through the knees; keep a steady rhythm.",tiph:"घुटनों से नरम लैंडिंग; एक समान लय बनाए रखें।"},
+  {n:"Dancing / shadow boxing",nh:"डांस / शैडो बॉक्सिंग",where:"home",grp:"cardio",int:2,avoid:[],dose:"10 min",mus:"Full body, heart",mush:"पूरा शरीर, हृदय",tip:"Keep moving to music or throw light punches — fun way to raise the pulse.",tiph:"संगीत पर चलते रहें या हल्के पंच मारें — पल्स बढ़ाने का मज़ेदार तरीका।"},
 
-  // COOLDOWN / MOBILITY
-  {n:"Hamstring stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side",mus:"Hamstrings",tip:"Gentle reach toward toes, soft knees, breathe — no bouncing."},
-  {n:"Quad & hip-flexor stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side",mus:"Quads, hips",tip:"Hold one foot behind you (use support); stand tall, feel the front of thigh."},
-  {n:"Chest & shoulder stretch",where:"both",grp:"cool",int:1,avoid:[],dose:"30s",mus:"Chest, shoulders",tip:"Hands clasped behind back, lift gently to open the chest."},
-  {n:"Child's pose / gentle back stretch",where:"both",grp:"cool",int:1,avoid:["pregnancy"],dose:"45s",mus:"Back, hips",tip:"Kneel and sit hips back toward heels, arms forward, relax and breathe."},
-  {n:"Deep breathing",where:"both",grp:"cool",int:1,avoid:[],dose:"2 min",mus:"Recovery",tip:"Inhale 4s, exhale 6s — calms the heart rate and ends the session well."},
+  {n:"Hamstring stretch",nh:"हैमस्ट्रिंग स्ट्रेच",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side",mus:"Hamstrings",mush:"हैमस्ट्रिंग",tip:"Gentle reach toward toes, soft knees, breathe — no bouncing.",tiph:"पंजों की ओर हल्का झुकें, घुटने हल्के मुड़े, सांस लें — झटका नहीं।"},
+  {n:"Quad & hip-flexor stretch",nh:"जांघ व हिप-फ्लेक्सर स्ट्रेच",where:"both",grp:"cool",int:1,avoid:[],dose:"30s/side",mus:"Quads, hips",mush:"जांघ, कूल्हे",tip:"Hold one foot behind you (use support); stand tall, feel the front of thigh.",tiph:"एक पैर पीछे पकड़ें (सहारा लें); सीधे खड़े हों, जांघ का अगला भाग महसूस करें।"},
+  {n:"Chest & shoulder stretch",nh:"छाती व कंधा स्ट्रेच",where:"both",grp:"cool",int:1,avoid:[],dose:"30s",mus:"Chest, shoulders",mush:"छाती, कंधे",tip:"Hands clasped behind back, lift gently to open the chest.",tiph:"हाथ पीठ के पीछे बांधें, हल्का ऊपर उठाकर छाती खोलें।"},
+  {n:"Child's pose / gentle back stretch",nh:"चाइल्ड पोज़ / हल्का पीठ स्ट्रेच",where:"both",grp:"cool",int:1,avoid:["pregnancy"],dose:"45s",mus:"Back, hips",mush:"पीठ, कूल्हे",tip:"Kneel and sit hips back toward heels, arms forward, relax and breathe.",tiph:"घुटनों पर बैठकर कूल्हे एड़ियों की ओर, बाहें आगे, आराम से सांस लें।"},
+  {n:"Deep breathing",nh:"गहरी सांस",where:"both",grp:"cool",int:1,avoid:[],dose:"2 min",mus:"Recovery",mush:"रिकवरी",tip:"Inhale 4s, exhale 6s — calms the heart rate and ends the session well.",tiph:"4 सेकंड सांस लें, 6 सेकंड छोड़ें — हृदय गति शांत कर सत्र अच्छे से समाप्त करें।"},
 ];
-
-const COND_LABEL = {back:"Back pain",knee:"Knee/joint",heart:"Hypertension/heart",
-  diabetes:"Diabetes",obese:"Overweight",asthma:"Asthma",pregnancy:"Pregnancy"};
-const COND_NOTES = {
-  back:{t:"warn",m:"Back pain: keep a neutral spine, avoid heavy spinal loading and full crunches. Stop if pain radiates down a leg."},
-  knee:{t:"warn",m:"Knee/joint issues: stay in a pain-free range, avoid deep squats and jumping. Low-impact cardio (bike/elliptical) preferred."},
-  heart:{t:"danger",m:"Hypertension/heart: avoid breath-holding and max lifts. Keep effort conversational, monitor BP, and get medical clearance first."},
-  diabetes:{t:"info",m:"Diabetes: check blood sugar before/after, carry a fast carb, stay hydrated, and don't exercise if sugar is very high/low."},
-  obese:{t:"info",m:"Overweight/obesity: favour low-impact movement to protect joints; build duration gradually. Consistency beats intensity."},
-  asthma:{t:"info",m:"Asthma: keep your inhaler nearby, warm up longer, and reduce intensity on high-pollution/cold days."},
-  pregnancy:{t:"danger",m:"Pregnancy: avoid supine core work after 1st trimester, lying-on-back, jumping and overheating. Follow your obstetrician's guidance."},
+const COND_NOTES_KEYS=["back","knee","heart","diabetes","obese","asthma","pregnancy"];
+const COND_NOTES={
+  en:{back:["warn","Back pain: keep a neutral spine, avoid heavy spinal loading and full crunches. Stop if pain radiates down a leg."],
+    knee:["warn","Knee/joint issues: stay in a pain-free range, avoid deep squats and jumping. Low-impact cardio preferred."],
+    heart:["danger","Hypertension/heart: avoid breath-holding and max lifts. Keep effort conversational, monitor BP, and get medical clearance first."],
+    diabetes:["info","Diabetes: check blood sugar before/after, carry a fast carb, stay hydrated, and don't exercise if sugar is very high/low."],
+    obese:["info","Overweight/obesity: favour low-impact movement to protect joints; build duration gradually. Consistency beats intensity."],
+    asthma:["info","Asthma: keep your inhaler nearby, warm up longer, and reduce intensity on high-pollution/cold days."],
+    pregnancy:["danger","Pregnancy: avoid supine core work after 1st trimester, lying-on-back, jumping and overheating. Follow your obstetrician's guidance."]},
+  hi:{back:["warn","कमर दर्द: रीढ़ सीधी रखें, भारी रीढ़-भार व पूर्ण क्रंच से बचें। दर्द पैर तक जाए तो रुकें।"],
+    knee:["warn","घुटना/जोड़: दर्द-रहित रेंज में रहें, गहरे स्क्वाट व कूद से बचें। कम झटके वाला कार्डियो बेहतर।"],
+    heart:["danger","रक्तचाप/हृदय: सांस रोकने व अधिकतम भार से बचें। मेहनत ऐसी कि बात कर सकें, BP जांचें, पहले डॉक्टर की अनुमति लें।"],
+    diabetes:["info","मधुमेह: पहले/बाद शुगर जांचें, जल्दी असर वाला कार्ब साथ रखें, पानी पिएं, शुगर बहुत ज़्यादा/कम हो तो व्यायाम न करें।"],
+    obese:["info","अधिक वजन/मोटापा: जोड़ों की सुरक्षा हेतु कम झटके वाला व्यायाम; अवधि धीरे बढ़ाएं। निरंतरता तीव्रता से बेहतर।"],
+    asthma:["info","दमा: इनहेलर पास रखें, लंबा वार्म-अप करें, अधिक प्रदूषण/ठंड में तीव्रता घटाएं।"],
+    pregnancy:["danger","गर्भावस्था: पहली तिमाही बाद पीठ के बल कोर व्यायाम, कूद व अधिक गर्मी से बचें। प्रसूति-चिकित्सक की सलाह मानें।"]}
 };
 
-/* ===================== State & storage ===================== */
+/* ===================== Storage ===================== */
 const $ = id => document.getElementById(id);
 let selected = new Set(["none"]);
 let lastOpts = null;
@@ -318,323 +398,344 @@ function exKey(where,name){ return where+"|"+name; }
 
 /* ===================== Streak / completion ===================== */
 function doneMap(){ return LS.get("df_done",{}); }
-function setDone(map){ LS.set("df_done",map); }
 function isDone(where,name){ const m=doneMap()[todayStr()]||{}; return !!m[exKey(where,name)]; }
 function toggleDone(where,name,val){
   const all=doneMap(); const t=todayStr(); all[t]=all[t]||{};
   if(val){ all[t][exKey(where,name)]=true; } else { delete all[t][exKey(where,name)]; }
   if(Object.keys(all[t]).length===0) delete all[t];
-  setDone(all); refreshStats();
+  LS.set("df_done",all); refreshStats();
 }
-function activeDates(){ return new Set(Object.keys(doneMap()).filter(d=>Object.keys(doneMap()[d]).length>0)); }
+function activeDates(){ const m=doneMap(); return new Set(Object.keys(m).filter(d=>Object.keys(m[d]).length>0)); }
 function computeStreak(){
   const set=activeDates(); if(set.size===0) return 0;
   const d=new Date(); d.setHours(0,0,0,0);
   const fmt=x=>x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");
-  // start from today if active else yesterday
   if(!set.has(fmt(d))) d.setDate(d.getDate()-1);
-  let n=0;
-  while(set.has(fmt(d))){ n++; d.setDate(d.getDate()-1); }
-  return n;
+  let n=0; while(set.has(fmt(d))){ n++; d.setDate(d.getDate()-1); } return n;
 }
+function totalWorkouts(){ return activeDates().size; }
 function refreshStats(){
-  const streak=computeStreak();
-  const total=activeDates().size;
-  $("streakStat").textContent="🔥 "+streak+"-day streak";
-  $("totalStat").textContent="🏅 "+total+" workout"+(total===1?"":"s");
+  $("streakStat").textContent="🔥 "+computeStreak()+(lang==="hi"?"-दिन स्ट्रीक":"-day streak");
+  const t=totalWorkouts();
+  $("totalStat").textContent="🏅 "+t+(lang==="hi"?(" वर्कआउट"):(" workout"+(t===1?"":"s")));
+}
+
+/* ===================== Badges ===================== */
+const BADGE_DEFS=[
+  {id:"first",em:"🎉",test:()=>totalWorkouts()>=1},
+  {id:"s3",em:"🔥",test:()=>computeStreak()>=3},
+  {id:"s7",em:"🗓️",test:()=>computeStreak()>=7},
+  {id:"s14",em:"💪",test:()=>computeStreak()>=14},
+  {id:"s30",em:"🏆",test:()=>computeStreak()>=30},
+  {id:"w10",em:"🏅",test:()=>totalWorkouts()>=10},
+  {id:"w25",em:"⭐",test:()=>totalWorkouts()>=25},
+  {id:"w50",em:"🌟",test:()=>totalWorkouts()>=50},
+];
+function earnedSet(){ return new Set(BADGE_DEFS.filter(b=>b.test()).map(b=>b.id)); }
+function checkBadges(announce){
+  const have=earnedSet();
+  const prev=new Set(LS.get("df_badges",null)||[]);
+  const firstTime = LS.get("df_badges",null)===null;
+  if(announce && !firstTime){
+    BADGE_DEFS.forEach(b=>{ if(have.has(b.id)&&!prev.has(b.id)) toast(T("newBadge")(T("badgeNames")[b.id])); });
+  }
+  LS.set("df_badges",[...have]);
+  if(lastOpts && !$("planMe").classList.contains("hidden")) $("planMe").innerHTML=renderMe();
 }
 
 /* ===================== Plan building ===================== */
 function ageBand(a){ if(a<18)return"teen"; if(a<40)return"adult"; if(a<60)return"middle"; return"senior"; }
 function daySeed(){ const d=new Date(); return d.getFullYear()*1000+Math.floor((d-new Date(d.getFullYear(),0,0))/864e5); }
 function rotate(arr,off){ if(arr.length===0)return arr; const o=((off%arr.length)+arr.length)%arr.length; return arr.slice(o).concat(arr.slice(0,o)); }
-
-function maxIntFor(opts){
-  const {conds,band}=opts;
-  if(conds.includes("heart")||conds.includes("pregnancy")) return 1;
-  if(band==="senior"||conds.includes("knee")||conds.includes("obese")||conds.includes("asthma")) return 2;
-  return 3;
-}
-function pool(grp,where,opts,seedExtra){
+function maxIntFor(o){ if(o.conds.includes("heart")||o.conds.includes("pregnancy"))return 1;
+  if(o.band==="senior"||o.conds.includes("knee")||o.conds.includes("obese")||o.conds.includes("asthma"))return 2; return 3; }
+function pool(grp,where,o,seedExtra){
   let p=LIB.filter(x=>x.grp===grp && (x.where===where||x.where==="both"))
-          .filter(x=>!x.avoid.some(a=>opts.conds.includes(a)))
-          .filter(x=>x.int<=maxIntFor(opts));
+          .filter(x=>!x.avoid.some(a=>o.conds.includes(a))).filter(x=>x.int<=maxIntFor(o));
   return rotate(p, daySeed()+grp.length+(seedExtra||0));
 }
-function buildPlan(where,opts){
-  const {band,goal}=opts;
-  const coreN = band==="senior"?1:2;
-  let cardioN = goal==="fatloss"?2:1; if(band==="senior")cardioN=1;
-  const pick=(g,n,s)=>pool(g,where,opts,s).slice(0,n);
-  return {
-    warmup: pick("warmup",3,0),
-    lower:  pick("lower",2,0),
-    upper:  pick("upper",goal==="muscle"?3:2,0),
-    core:   pick("core",coreN,0),
-    cardio: pick("cardio",cardioN,0),
-    cool:   pick("cool",3,0),
-  };
+function buildPlan(where,o){
+  const coreN=o.band==="senior"?1:2; let cardioN=o.goal==="fatloss"?2:1; if(o.band==="senior")cardioN=1;
+  const pick=(g,n)=>pool(g,where,o,0).slice(0,n);
+  return {warmup:pick("warmup",3),lower:pick("lower",2),upper:pick("upper",o.goal==="muscle"?3:2),
+          core:pick("core",coreN),cardio:pick("cardio",cardioN),cool:pick("cool",3)};
 }
-
-/* ---- session time & calorie estimate ---- */
-function estMinutes(x){
-  const d=x.dose;
+function estMinutes(x){ const d=x.dose;
   if(/min/.test(d)) return parseFloat(d)||5;
-  let m=d.match(/(\d+)×(\d+)(s?)/);
-  if(m){ const sets=+m[1], reps=+m[2], isSec=m[3]==="s";
-    const work=isSec?reps:reps*3; return Math.round((sets*(work+45))/60*10)/10; }
-  if(/s\b/.test(d)) return 1;
-  return 1.5;
-}
-function estimate(plan,weightKg){
-  const w=weightKg||70;
-  const met={warmup:3.5,lower:5,upper:4,core:3.5,cool:2.5};
-  let mins=0,kcal=0;
-  for(const g of Object.keys(plan)){
-    for(const x of plan[g]){
-      const t=estMinutes(x);
-      const m = g==="cardio" ? (x.int===1?4:x.int===2?6.5:9) : (met[g]||4);
-      mins+=t; kcal+= m*w*(t/60);
-    }
-  }
+  let m=d.match(/(\d+)×(\d+)(s?)/); if(m){ const sets=+m[1],reps=+m[2],sec=m[3]==="s"; const work=sec?reps:reps*3; return Math.round((sets*(work+45))/60*10)/10; }
+  if(/s\b/.test(d)) return 1; return 1.5; }
+function estimate(plan,w){ w=w||70; const met={warmup:3.5,lower:5,upper:4,core:3.5,cool:2.5}; let mins=0,kcal=0;
+  for(const g of Object.keys(plan)) for(const x of plan[g]){ const t=estMinutes(x);
+    const m=g==="cardio"?(x.int===1?4:x.int===2?6.5:9):(met[g]||4); mins+=t; kcal+=m*w*(t/60); }
   mins=Math.round(mins); kcal=Math.round(kcal/5)*5;
-  return {mins, kcalLow:Math.round(kcal*0.85/5)*5, kcalHigh:Math.round(kcal*1.15/5)*5};
-}
+  return {mins,kcalLow:Math.round(kcal*0.85/5)*5,kcalHigh:Math.round(kcal*1.15/5)*5}; }
 
 /* ===================== Rendering ===================== */
+function exName(x){ return lang==="hi"?x.nh:x.n; }
+function exTip(x){ return lang==="hi"?x.tiph:x.tip; }
+function exMus(x){ return lang==="hi"?x.mush:x.mus; }
 function exRow(x,where){
   const done=isDone(where,x.n);
-  return `<div class="ex${done?' done':''}" data-key="${exKey(where,x.n)}">
+  return `<div class="ex${done?' done':''}" data-name="${x.n}">
     <div class="cbx${done?' on':''}" data-act="toggle">${done?'✓':''}</div>
     <div class="body">
-      <h4 data-act="tip">${x.n}</h4>
-      <small>${x.grp.toUpperCase()} · ${x.mus} · impact ${"●".repeat(x.int)}${"○".repeat(3-x.int)}  <span style="color:var(--accent2)">ⓘ tap for how-to</span></small>
-      <div class="tip">💡 ${x.tip}</div>
+      <h4 data-act="tip">${exName(x)}</h4>
+      <small>${T("grp")[x.grp]} · ${exMus(x)} · ${T("impact")} ${"●".repeat(x.int)}${"○".repeat(3-x.int)}  <span style="color:var(--accent2)">${T("howto")}</span></small>
+      <div class="tip">💡 ${exTip(x)}</div>
     </div>
     <div class="dose">${x.dose}</div>
   </div>`;
 }
-function block(title,arr,where){ if(!arr.length)return""; return `<div class="section-title">${title}</div>`+arr.map(x=>exRow(x,where)).join(""); }
-function flatten(plan){ return [].concat(plan.warmup,plan.lower,plan.upper,plan.core,plan.cardio,plan.cool); }
+function block(grp,arr,where){ if(!arr.length)return""; return `<div class="section-title">${T("secTitles")[grp]}</div>`+arr.map(x=>exRow(x,where)).join(""); }
+function flatten(p){ return [].concat(p.warmup,p.lower,p.upper,p.core,p.cardio,p.cool); }
 function renderPlan(plan,where,est){
-  const items=flatten(plan);
-  const doneCount=items.filter(x=>isDone(where,x.n)).length;
-  const pct=items.length?Math.round(doneCount/items.length*100):0;
+  const items=flatten(plan); const dc=items.filter(x=>isDone(where,x.n)).length;
+  const pct=items.length?Math.round(dc/items.length*100):0;
   return `<div class="planhead">
-      <div><b>${where==="gym"?"🏟️ Gym":"🏠 Home"} workout</b> <span class="cnt">· ~${est.mins} min · ~${est.kcalLow}-${est.kcalHigh} kcal</span></div>
-      <div class="right"><button class="btn ghost sm" data-act="markall" data-where="${where}">Mark all done</button>
-      <button class="btn ghost sm" data-act="reset" data-where="${where}">Reset</button></div>
-    </div>
+      <div><b>${where==="gym"?T("gymWorkout"):T("homeWorkout")}</b> <span class="cnt">· ~${est.mins} ${T("min")} · ~${est.kcalLow}-${est.kcalHigh} kcal</span></div>
+      <div class="right"><button class="btn ghost sm" data-act="markall" data-where="${where}">${T("markAll")}</button>
+      <button class="btn ghost sm" data-act="reset" data-where="${where}">${T("reset")}</button></div></div>
     <div class="progress"><div id="bar-${where}" style="width:${pct}%"></div></div>
-    <div class="cnt" id="cnt-${where}" style="margin-bottom:8px">${doneCount}/${items.length} done${pct===100?'  🎉 Workout complete!':''}</div>`
-    + block("Warm-up (do first)",plan.warmup,where)
-    + block("Lower body",plan.lower,where)
-    + block("Upper body",plan.upper,where)
-    + block("Core",plan.core,where)
-    + block("Cardio / conditioning",plan.cardio,where)
-    + block("Cool-down & stretch",plan.cool,where);
+    <div class="cnt" id="cnt-${where}" style="margin-bottom:8px">${dc}/${items.length} ${T("done")}${pct===100?'  '+T("complete"):''}</div>`
+    + block("warmup",plan.warmup,where)+block("lower",plan.lower,where)+block("upper",plan.upper,where)
+    + block("core",plan.core,where)+block("cardio",plan.cardio,where)+block("cool",plan.cool,where);
 }
 function updateProgress(where){
-  const plan = where==="gym"?lastOpts._gym:lastOpts._home;
-  const items=flatten(plan);
-  const doneCount=items.filter(x=>isDone(where,x.n)).length;
-  const pct=items.length?Math.round(doneCount/items.length*100):0;
-  const bar=$("bar-"+where), cnt=$("cnt-"+where);
-  if(bar) bar.style.width=pct+"%";
-  if(cnt) cnt.textContent=doneCount+"/"+items.length+" done"+(pct===100?'  🎉 Workout complete!':'');
+  const plan=where==="gym"?lastOpts._gym:lastOpts._home; const items=flatten(plan);
+  const dc=items.filter(x=>isDone(where,x.n)).length; const pct=items.length?Math.round(dc/items.length*100):0;
+  const bar=$("bar-"+where),cnt=$("cnt-"+where); if(bar)bar.style.width=pct+"%";
+  if(cnt)cnt.textContent=dc+"/"+items.length+" "+T("done")+(pct===100?'  '+T("complete"):'');
 }
-
 /* weekly split */
 function weeklyTemplate(goal){
-  if(goal==="muscle") return ["Upper body","Lower body","Rest / walk","Upper body","Lower body","Cardio + Core","Rest"];
-  if(goal==="mobility") return ["Mobility + Core","Cardio (easy)","Rest / walk","Full body","Mobility + Core","Cardio (easy)","Rest"];
-  return ["Full body","Cardio + Core","Rest / walk","Upper body","Lower body","Cardio","Rest"]; // general / fatloss
+  if(goal==="muscle")return ["upper","lower","restwalk","upper","lower","cardiocore","rest"];
+  if(goal==="mobility")return ["mobcore","cardioeasy","restwalk","full","mobcore","cardioeasy","rest"];
+  return ["full","cardiocore","restwalk","upper","lower","cardio","rest"];
 }
-function groupsForFocus(f){
-  if(/Upper/.test(f)) return ["upper","upper","core"];
-  if(/Lower/.test(f)) return ["lower","lower","core"];
-  if(/Full/.test(f)) return ["lower","upper","core"];
-  if(/Cardio \+ Core/.test(f)) return ["cardio","core","cool"];
-  if(/Cardio/.test(f)) return ["cardio","cardio","cool"];
-  if(/Mobility/.test(f)) return ["warmup","cool","core"];
+function groupsForFocus(k){
+  if(k==="upper")return["upper","upper","core"]; if(k==="lower")return["lower","lower","core"];
+  if(k==="full")return["lower","upper","core"]; if(k==="cardiocore")return["cardio","core","cool"];
+  if(k==="cardio"||k==="cardioeasy")return["cardio","cardio","cool"]; if(k==="mobcore")return["warmup","cool","core"];
   return [];
 }
-function renderWeek(where,opts){
-  const days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const todayIdx=(new Date().getDay()+6)%7; // Mon=0
-  const tmpl=weeklyTemplate(opts.goal);
-  let html=`<div class="cnt" style="margin:6px 0 12px">A balanced 7-day split for <b>${where==="gym"?"the gym":"home"}</b> · today is highlighted. Rest days matter — that's when you get stronger.</div><div class="week">`;
-  for(let i=0;i<7;i++){
-    const focus=tmpl[i]; const rest=/Rest/.test(focus);
-    let moves="";
-    if(!rest){
-      const gs=groupsForFocus(focus); const picked=[]; const seen=new Set();
-      gs.forEach((g,k)=>{ const p=pool(g,where,opts,i*7+k); for(const x of p){ if(!seen.has(x.n)){ seen.add(x.n); picked.push(x); break; } } });
-      moves="<ul>"+picked.map(x=>`<li>${x.n} <span style="color:var(--accent)">${x.dose}</span></li>`).join("")+"</ul>";
-    } else {
-      moves=`<ul><li>Light walk, stretching or full rest. Stay hydrated. 🚶</li></ul>`;
-    }
+function renderWeek(where,o){
+  const todayIdx=(new Date().getDay()+6)%7; const tmpl=weeklyTemplate(o.goal);
+  let html=`<div class="cnt" style="margin:6px 0 12px">${T("weekIntro")(where==="gym"?T("forTheGym"):T("forHome"))}</div><div class="week">`;
+  for(let i=0;i<7;i++){ const k=tmpl[i]; const rest=(k==="rest"||k==="restwalk"); let moves="";
+    if(!rest){ const gs=groupsForFocus(k); const picked=[]; const seen=new Set();
+      gs.forEach((g,j)=>{ const p=pool(g,where,o,i*7+j); for(const x of p){ if(!seen.has(x.n)){ seen.add(x.n); picked.push(x); break; } } });
+      moves="<ul>"+picked.map(x=>`<li>${exName(x)} <span style="color:var(--accent)">${x.dose}</span></li>`).join("")+"</ul>"; }
+    else moves=`<ul><li>${T("restText")}</li></ul>`;
     html+=`<div class="wday${i===todayIdx?' today':''}${rest?' rest':''}">
-      <h4>${days[i]}${i===todayIdx?' · Today':''} <span class="focus">${rest?'😴 Rest':focus}</span></h4>${moves}</div>`;
-  }
+      <h4><span>${T("days")[i]}${i===todayIdx?' · '+T("today"):''}</span> <span class="focus">${rest?T("restDay"):T("focus")[k]}</span></h4>${moves}</div>`; }
   return html+"</div>";
+}
+/* Me tab: badges, weight, water, protein */
+function profile(){ return LS.get("df_profile",{})||{}; }
+function renderMe(){
+  const have=earnedSet();
+  let badges=`<div class="subcard"><h3>${T("meBadges")}</h3><div class="badges">`;
+  BADGE_DEFS.forEach(b=>{ badges+=`<div class="bg${have.has(b.id)?' earned':''}"><div class="em">${b.em}</div><div class="nm">${T("badgeNames")[b.id]}</div></div>`; });
+  badges+="</div></div>";
+
+  // weight log
+  const w=LS.get("df_weights",[]); let chart="",info="";
+  if(w.length){ const latest=w[w.length-1].kg; const first=w[0].kg; const diff=(latest-first);
+    info=`<div style="margin-bottom:8px"><span class="pill">${T("latest")}: <b>${latest} kg</b></span> <span class="pill">${T("change")}: <b>${diff>=0?'+':''}${diff.toFixed(1)} kg</b></span></div>`;
+    chart=weightSVG(w);
+  } else info=`<div class="cnt">${T("noWeight")}</div>`;
+  const weight=`<div class="subcard"><h3>${T("meWeight")}</h3>${info}${chart}
+    <div class="counter" style="margin-top:10px">
+      <input id="wInput" type="number" min="30" max="250" placeholder="${T("logWeight")}" style="max-width:220px" />
+      <button class="btn green sm" id="wAdd">${T("add")}</button></div></div>`;
+
+  // water
+  const p=profile(); const wt=p.weight||null;
+  const wTarget=wt?Math.max(6,Math.min(14,Math.round(wt*35/250))):8;
+  const water=LS.get("df_water",{})[todayStr()]||0;
+  let glasses=""; for(let i=0;i<wTarget;i++) glasses+=`<span class="glass${i<water?' full':''}">🥤</span>`;
+  const waterCard=`<div class="subcard"><h3>${T("meWater")}</h3>
+    <div class="cnt">${T("waterSub")(wTarget)}</div>
+    <div class="counter" style="margin-top:8px"><button class="minus" data-act="water" data-d="-1">−</button>
+      <div class="num"><span id="waterNum">${water}</span> / ${wTarget} <span style="font-size:14px;color:var(--mut)">${T("glasses")}</span></div>
+      <button data-act="water" data-d="1">+</button></div>
+    <div class="glassbar" id="glassbar">${glasses}</div></div>`;
+
+  // protein
+  const pTarget=wt?Math.round(wt*1.6/5)*5:0; const prot=LS.get("df_protein",{})[todayStr()]||0;
+  const protCard=`<div class="subcard"><h3>${T("meProtein")}</h3>
+    <div class="cnt">${T("proteinSub")(pTarget)}</div>
+    <div class="counter" style="margin-top:8px"><button class="minus" data-act="protein" data-d="-10">−10</button>
+      <div class="num"><span id="protNum">${prot}</span>${pTarget?(" / "+pTarget):""} <span style="font-size:14px;color:var(--mut)">${T("grams")}</span></div>
+      <button data-act="protein" data-d="10">+10</button></div></div>`;
+
+  return badges+weight+waterCard+protCard;
+}
+function weightSVG(w){
+  const data=w.slice(-14); const W=300,H=90,pad=6;
+  const ys=data.map(d=>d.kg); const min=Math.min(...ys),max=Math.max(...ys); const rng=(max-min)||1;
+  const pts=data.map((d,i)=>{ const x=pad+(data.length===1?W/2:(i*(W-2*pad)/(data.length-1)));
+    const y=H-pad-((d.kg-min)/rng)*(H-2*pad); return x.toFixed(1)+","+y.toFixed(1); });
+  const poly=`<polyline fill="none" stroke="#5b8cff" stroke-width="2.5" points="${pts.join(" ")}"/>`;
+  const dots=pts.map(p=>`<circle cx="${p.split(",")[0]}" cy="${p.split(",")[1]}" r="3" fill="#37d6a6"/>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="90" style="background:#10142e;border:1px solid var(--line);border-radius:10px">${poly}${dots}</svg>`;
 }
 
 /* ===================== Generate ===================== */
 function readForm(){
-  const gender=$("gender").value;
-  const age=Math.max(10,Math.min(100,parseInt($("age").value)||30));
-  const goal=$("goal").value, level=$("level").value;
-  const height=parseFloat($("height").value)||null;
-  const weight=parseFloat($("weight").value)||null;
-  const conds=[...selected].filter(c=>c!=="none");
-  return {gender,age,goal,level,height,weight,conds,band:ageBand(age)};
+  const o={gender:$("gender").value,age:Math.max(10,Math.min(100,parseInt($("age").value)||30)),
+    goal:$("goal").value,level:$("level").value,
+    height:parseFloat($("height").value)||null,weight:parseFloat($("weight").value)||null,
+    conds:[...selected].filter(c=>c!=="none")}; o.band=ageBand(o.age); return o;
 }
 function saveProfile(o){ LS.set("df_profile",{gender:o.gender,age:o.age,goal:o.goal,level:o.level,height:o.height,weight:o.weight,conds:o.conds}); }
 function loadProfile(){
-  const p=LS.get("df_profile",null); if(!p) return false;
+  const p=LS.get("df_profile",null); if(!p)return false;
   $("gender").value=p.gender||"male"; $("age").value=p.age||30; $("goal").value=p.goal||"general";
   $("level").value=p.level||"beginner"; if(p.height)$("height").value=p.height; if(p.weight)$("weight").value=p.weight;
   selected=new Set((p.conds&&p.conds.length)?p.conds:["none"]);
   [...document.querySelectorAll("#conditions .chip")].forEach(ch=>ch.classList.toggle("on",selected.has(ch.dataset.c)));
   return true;
 }
-
 function generate(){
-  const o=readForm(); saveProfile(o);
-  o._gym=buildPlan("gym",o); o._home=buildPlan("home",o); lastOpts=o;
-
-  const bandLabel={teen:"Teen",adult:"Young adult",middle:"Middle age",senior:"Senior (60+)"}[o.band];
-  const goalLabel={general:"General fitness",fatloss:"Fat loss",muscle:"Muscle/strength",mobility:"Mobility"}[o.goal];
-  let pills=`<div class="pill"><b>${o.gender[0].toUpperCase()+o.gender.slice(1)}</b></div>`+
-    `<div class="pill">Age <b>${o.age}</b> · ${bandLabel}</div>`+
-    `<div class="pill">Goal <b>${goalLabel}</b></div>`+
-    `<div class="pill">Level <b>${o.level}</b></div>`+
-    `<div class="pill">Conditions <b>${o.conds.length?o.conds.map(c=>COND_LABEL[c]).join(", "):"None"}</b></div>`;
-  if(o.height&&o.weight){
-    const bmi=o.weight/Math.pow(o.height/100,2);
-    const cat=bmi<18.5?"Underweight":bmi<25?"Healthy":bmi<30?"Overweight":"Obese";
-    pills+=`<div class="pill big">BMI <b>${bmi.toFixed(1)}</b> · ${cat}</div>`;
-  }
+  const o=readForm(); saveProfile(o); o._gym=buildPlan("gym",o); o._home=buildPlan("home",o); lastOpts=o;
+  let pills=`<div class="pill"><b>${T("genderShort")[o.gender]}</b></div>`+
+    `<div class="pill">${T("pAge")} <b>${o.age}</b> · ${T("band")[o.band]}</div>`+
+    `<div class="pill">${T("pGoal")} <b>${T("goalShort")[o.goal]}</b></div>`+
+    `<div class="pill">${T("pLevel")} <b>${o.level}</b></div>`+
+    `<div class="pill">${T("pCond")} <b>${o.conds.length?o.conds.map(c=>T("condShort")[c]).join(", "):T("pNone")}</b></div>`;
+  if(o.height&&o.weight){ const bmi=o.weight/Math.pow(o.height/100,2);
+    const cat=bmi<18.5?T("bmiCat").u:bmi<25?T("bmiCat").h:bmi<30?T("bmiCat").o:T("bmiCat").ob;
+    pills+=`<div class="pill big">BMI <b>${bmi.toFixed(1)}</b> · ${cat}</div>`; }
   $("summary").innerHTML=pills;
-
-  let notes=`<div class="note info">📅 Today's plan (rotates daily). Rest 45–90s between sets, hydrate, and stop if you feel pain, dizziness or breathlessness. Tap a tick to log each exercise.</div>`;
-  if(o.band==="senior")notes+=`<div class="note info">👴 Age 60+: gentler progression, balance & mobility focus, longer warm-up. Use support for standing moves if needed.</div>`;
-  if(o.band==="teen")notes+=`<div class="note info">🧒 Teen: focus on form and bodyweight skills over heavy loads while still growing.</div>`;
-  if(o.gender==="female")notes+=`<div class="note info">🚺 Tip: hip, glute & posterior-chain work plus 2–3× weekly strength supports bone density.</div>`;
-  o.conds.forEach(c=>{const k=COND_NOTES[c]; if(k)notes+=`<div class="note ${k.t}">⚠️ ${k.m}</div>`;});
+  let notes=`<div class="note info">${T("noteMain")}</div>`;
+  if(o.band==="senior")notes+=`<div class="note info">${T("noteSenior")}</div>`;
+  if(o.band==="teen")notes+=`<div class="note info">${T("noteTeen")}</div>`;
+  if(o.gender==="female")notes+=`<div class="note info">${T("noteFemale")}</div>`;
+  o.conds.forEach(c=>{ const k=COND_NOTES[lang][c]; if(k)notes+=`<div class="note ${k[0]}">⚠️ ${k[1]}</div>`; });
   $("globalNotes").innerHTML=notes;
-
   $("planGym").innerHTML=renderPlan(o._gym,"gym",estimate(o._gym,o.weight));
   $("planHome").innerHTML=renderPlan(o._home,"home",estimate(o._home,o.weight));
-  $("planWeek").innerHTML=renderWeek("gym",o); // default week view = gym; toggles below
-
-  $("output").classList.remove("hidden");
-  $("inputCard").classList.add("hidden");
-  switchTab("gym");
-  refreshStats();
+  $("output").classList.remove("hidden"); $("inputCard").classList.add("hidden");
+  switchTab("gym"); refreshStats(); checkBadges(false);
 }
-
 /* ===================== Tabs ===================== */
+let currentTab="gym";
 function switchTab(name){
+  currentTab=name;
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.tab===name));
   $("planGym").classList.toggle("hidden",name!=="gym");
   $("planHome").classList.toggle("hidden",name!=="home");
   $("planWeek").classList.toggle("hidden",name!=="week");
-  if(name==="week" && lastOpts){
-    // show week for whichever location was last viewed strength; default gym, but offer both via note
-    $("planWeek").innerHTML=renderWeek("home",lastOpts).replace('for <b>home</b>','for <b>home</b> (gym version mirrors this)');
-  }
+  $("planMe").classList.toggle("hidden",name!=="me");
+  if(name==="week"&&lastOpts)$("planWeek").innerHTML=renderWeek("home",lastOpts);
+  if(name==="me")$("planMe").innerHTML=renderMe();
+}
+/* ===================== Apply language to static chrome ===================== */
+function applyLang(){
+  document.documentElement.lang=lang;
+  $("tagline").textContent=T("tagline"); $("badgeLine").textContent=T("badge");
+  $("shareBtn").textContent=T("shareApp"); $("langBtn").textContent="🌐 "+T("lang");
+  $("lblGender").textContent=T("lblGender"); $("lblAge").textContent=T("lblAge");
+  $("lblGoal").textContent=T("lblGoal"); $("lblExp").textContent=T("lblExp");
+  $("lblHeight").innerHTML=T("lblHeight"); $("lblWeight").innerHTML=T("lblWeight");
+  $("lblConditions").textContent=T("lblConditions");
+  const setOpts=(sel,arr)=>{ const os=$(sel).options; for(let i=0;i<os.length;i++) os[i].textContent=arr[i]; };
+  setOpts("gender",T("gender")); setOpts("goal",T("goal")); setOpts("level",T("level"));
+  [...document.querySelectorAll("#conditions .chip")].forEach(ch=>ch.textContent=T("chips")[ch.dataset.c]);
+  $("go").textContent=T("generate");
+  $("editBtn").textContent=T("edit"); $("sharePlanBtn").textContent=T("sharePlan"); $("printBtn").textContent=T("print");
+  document.querySelectorAll(".tab").forEach(t=>t.textContent=T("tabs")[t.dataset.tab]);
+  $("disclaimer").innerHTML=T("disclaimer");
+  $("tTitle").textContent=T("tTitle"); $("tStart").textContent=(tHandle?T("tPause"):T("tStart"));
+  $("tReset").textContent=T("tReset"); $("timerFab").textContent=T("fab");
+  refreshStats();
+  if(lastOpts){ generate(); switchTab(currentTab); }
 }
 
 /* ===================== Events ===================== */
-$("conditions").addEventListener("click",e=>{
-  const chip=e.target.closest(".chip"); if(!chip)return;
+$("conditions").addEventListener("click",e=>{ const chip=e.target.closest(".chip"); if(!chip)return;
   const c=chip.dataset.c;
-  if(c==="none"){ selected=new Set(["none"]); }
+  if(c==="none")selected=new Set(["none"]);
   else{ selected.delete("none"); selected.has(c)?selected.delete(c):selected.add(c); if(selected.size===0)selected.add("none"); }
   [...document.querySelectorAll("#conditions .chip")].forEach(ch=>ch.classList.toggle("on",selected.has(ch.dataset.c)));
 });
 $("go").addEventListener("click",generate);
 $("editBtn").addEventListener("click",()=>{ $("inputCard").classList.remove("hidden"); $("output").classList.add("hidden"); window.scrollTo({top:0,behavior:"smooth"}); });
 $("printBtn").addEventListener("click",()=>window.print());
-
+$("langBtn").addEventListener("click",()=>{ lang=lang==="en"?"hi":"en"; try{localStorage.setItem("df_lang",lang);}catch(e){} applyLang(); });
 document.querySelector(".tabs").addEventListener("click",e=>{ const t=e.target.closest(".tab"); if(t)switchTab(t.dataset.tab); });
 
-// exercise interactions (tick / how-to / mark all / reset)
 $("output").addEventListener("click",e=>{
-  const markall=e.target.closest('[data-act="markall"]');
-  const reset=e.target.closest('[data-act="reset"]');
-  if(markall){ const w=markall.dataset.where; const plan=w==="gym"?lastOpts._gym:lastOpts._home;
-    flatten(plan).forEach(x=>toggleDone(w,x.n,true));
-    (w==="gym"?$("planGym"):$("planHome")).innerHTML=renderPlan(plan,w,estimate(plan,lastOpts.weight));
-    toast("🎉 Workout logged! Streak: "+computeStreak()+" days"); return; }
-  if(reset){ const w=reset.dataset.where; const plan=w==="gym"?lastOpts._gym:lastOpts._home;
-    flatten(plan).forEach(x=>toggleDone(w,x.n,false));
+  // water / protein counters
+  const wat=e.target.closest('[data-act="water"]');
+  if(wat){ const m=LS.get("df_water",{}); const t=todayStr(); m[t]=Math.max(0,(m[t]||0)+ (+wat.dataset.d)); LS.set("df_water",m); $("planMe").innerHTML=renderMe(); return; }
+  const pro=e.target.closest('[data-act="protein"]');
+  if(pro){ const m=LS.get("df_protein",{}); const t=todayStr(); m[t]=Math.max(0,(m[t]||0)+ (+pro.dataset.d)); LS.set("df_protein",m); $("planMe").innerHTML=renderMe(); return; }
+  // weight add
+  if(e.target.id==="wAdd"){ const v=parseFloat($("wInput").value); if(v>0){ const arr=LS.get("df_weights",[]); const t=todayStr();
+    const idx=arr.findIndex(d=>d.d===t); if(idx>=0)arr[idx].kg=v; else arr.push({d:t,kg:v}); LS.set("df_weights",arr);
+    // also update profile weight so targets refresh
+    const p=profile(); p.weight=v; LS.set("df_profile",p); $("weight").value=v; $("planMe").innerHTML=renderMe(); toast("✅ "+v+" kg"); } return; }
+  // mark all / reset
+  const ma=e.target.closest('[data-act="markall"]'); const rs=e.target.closest('[data-act="reset"]');
+  if(ma){ const w=ma.dataset.where; const plan=w==="gym"?lastOpts._gym:lastOpts._home; flatten(plan).forEach(x=>toggleDone(w,x.n,true));
+    (w==="gym"?$("planGym"):$("planHome")).innerHTML=renderPlan(plan,w,estimate(plan,lastOpts.weight)); checkBadges(true);
+    toast((lang==="hi"?"🎉 वर्कआउट दर्ज! स्ट्रीक: ":"🎉 Workout logged! Streak: ")+computeStreak()); return; }
+  if(rs){ const w=rs.dataset.where; const plan=w==="gym"?lastOpts._gym:lastOpts._home; flatten(plan).forEach(x=>toggleDone(w,x.n,false));
     (w==="gym"?$("planGym"):$("planHome")).innerHTML=renderPlan(plan,w,estimate(plan,lastOpts.weight)); return; }
-
+  // exercise tick / tip
   const row=e.target.closest(".ex"); if(!row)return;
-  const where=row.closest("#planHome")?"home":"gym";
+  const where=row.closest("#planHome")?"home":"gym"; const name=row.dataset.name;
   if(e.target.closest('[data-act="tip"]')){ row.querySelector(".tip").classList.toggle("open"); return; }
   if(e.target.closest('[data-act="toggle"]')){
-    const name=row.querySelector("h4").textContent;
     const willOn=!row.classList.contains("done");
-    const wasComplete = flatten(where==="gym"?lastOpts._gym:lastOpts._home).every(x=>isDone(where,x.n));
-    toggleDone(where,name,willOn);
-    row.classList.toggle("done",willOn);
+    const wasComplete=flatten(where==="gym"?lastOpts._gym:lastOpts._home).every(x=>isDone(where,x.n));
+    toggleDone(where,name,willOn); row.classList.toggle("done",willOn);
     const cb=row.querySelector(".cbx"); cb.classList.toggle("on",willOn); cb.textContent=willOn?"✓":"";
-    updateProgress(where);
-    const nowComplete = flatten(where==="gym"?lastOpts._gym:lastOpts._home).every(x=>isDone(where,x.n));
-    if(willOn && !wasComplete && nowComplete) toast("🎉 "+(where==="gym"?"Gym":"Home")+" workout complete! 🔥 "+computeStreak()+"-day streak");
+    updateProgress(where); checkBadges(true);
+    const nowComplete=flatten(where==="gym"?lastOpts._gym:lastOpts._home).every(x=>isDone(where,x.n));
+    if(willOn&&!wasComplete&&nowComplete) toast((where==="gym"?"🏟️":"🏠")+" "+T("complete")+" 🔥 "+computeStreak());
   }
 });
 
 /* share */
 const SHARE_URL=location.origin+location.pathname;
-const SHARE_MSG="Sharing a free daily workout app I'm using 💪 — pick your gender, age & health conditions and it gives separate Gym & Home plans for the day. No sign-up, works on any phone:";
 function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),2600); }
-$("shareBtn").addEventListener("click",async()=>{
-  if(navigator.share){ try{ await navigator.share({title:"DailyFit",text:SHARE_MSG,url:SHARE_URL}); }catch(e){} }
-  else{ try{ await navigator.clipboard.writeText(SHARE_MSG+" "+SHARE_URL); toast("Link copied — paste & send!"); }catch(e){ prompt("Copy this link:",SHARE_URL); } }
-});
-$("waBtn").addEventListener("click",()=>window.open("https://wa.me/?text="+encodeURIComponent(SHARE_MSG+" "+SHARE_URL),"_blank"));
-$("sharePlanBtn").addEventListener("click",async()=>{
-  if(!lastOpts){ return; }
-  const where = $("planHome").classList.contains("hidden")?"gym":"home";
-  const plan = where==="gym"?lastOpts._gym:lastOpts._home;
-  const lines=["🏋️ My DailyFit "+(where==="gym"?"Gym":"Home")+" plan ("+todayStr()+"):"];
-  const add=(t,a)=>{ if(a.length){ lines.push(""+t+":"); a.forEach(x=>lines.push("• "+x.n+" — "+x.dose)); } };
-  add("Warm-up",plan.warmup); add("Lower",plan.lower); add("Upper",plan.upper);
-  add("Core",plan.core); add("Cardio",plan.cardio); add("Cool-down",plan.cool);
-  lines.push(""); lines.push("Make your own: "+SHARE_URL);
-  const txt=lines.join("\n");
-  if(navigator.share){ try{ await navigator.share({title:"My DailyFit plan",text:txt}); }catch(e){} }
-  else{ try{ await navigator.clipboard.writeText(txt); toast("Plan copied — paste & send!"); }catch(e){ window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank"); } }
-});
+$("shareBtn").addEventListener("click",async()=>{ const msg=T("shareMsg");
+  if(navigator.share){ try{ await navigator.share({title:"DailyFit",text:msg,url:SHARE_URL}); }catch(e){} }
+  else{ try{ await navigator.clipboard.writeText(msg+" "+SHARE_URL); toast(T("copied")); }catch(e){ prompt("Copy:",SHARE_URL); } } });
+$("waBtn").addEventListener("click",()=>window.open("https://wa.me/?text="+encodeURIComponent(T("shareMsg")+" "+SHARE_URL),"_blank"));
+$("sharePlanBtn").addEventListener("click",async()=>{ if(!lastOpts)return;
+  const where=$("planHome").classList.contains("hidden")?(currentTab==="home"?"home":"gym"):"home";
+  const w2=currentTab==="home"?"home":"gym"; const plan=w2==="gym"?lastOpts._gym:lastOpts._home;
+  const lines=[T("planTitle")(w2==="gym"?(lang==="hi"?"जिम":"Gym"):(lang==="hi"?"घर":"Home"),todayStr())];
+  const add=(t,a)=>{ if(a.length){ lines.push(t+":"); a.forEach(x=>lines.push("• "+exName(x)+" — "+x.dose)); } };
+  add(T("secTitles").warmup,plan.warmup); add(T("secTitles").lower,plan.lower); add(T("secTitles").upper,plan.upper);
+  add(T("secTitles").core,plan.core); add(T("secTitles").cardio,plan.cardio); add(T("secTitles").cool,plan.cool);
+  lines.push(""); lines.push(T("makeYours")+" "+SHARE_URL); const txt=lines.join("\n");
+  if(navigator.share){ try{ await navigator.share({title:"DailyFit",text:txt}); }catch(e){} }
+  else{ try{ await navigator.clipboard.writeText(txt); toast(T("planCopied")); }catch(e){ window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank"); } } });
 
 /* ===================== Rest timer ===================== */
-let tDefault=60, tLeft=60, tHandle=null;
-function tShow(){ const m=Math.floor(tLeft/60), s=tLeft%60; $("timerDisplay").textContent=m+":"+String(s).padStart(2,"0"); }
+let tDefault=60,tLeft=60,tHandle=null;
+function tShow(){ const m=Math.floor(tLeft/60),s=tLeft%60; $("timerDisplay").textContent=m+":"+String(s).padStart(2,"0"); }
 function beep(){ try{ const C=window.AudioContext||window.webkitAudioContext; const ctx=new C();
-  const o=ctx.createOscillator(), g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-  o.type="sine"; o.frequency.value=880; g.gain.value=0.001;
-  o.start(); g.gain.exponentialRampToValueAtTime(0.3,ctx.currentTime+0.05);
-  g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.6); o.stop(ctx.currentTime+0.65);
+  const o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
+  o.type="sine"; o.frequency.value=880; g.gain.value=0.001; o.start();
+  g.gain.exponentialRampToValueAtTime(0.3,ctx.currentTime+0.05); g.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.6); o.stop(ctx.currentTime+0.65);
 }catch(e){} }
 $("timerFab").addEventListener("click",()=>$("timerCard").classList.toggle("open"));
-$("tStart").addEventListener("click",function(){
-  if(tHandle){ clearInterval(tHandle); tHandle=null; this.textContent="Start"; return; }
-  this.textContent="Pause";
-  tHandle=setInterval(()=>{ tLeft--; tShow(); if(tLeft<=0){ clearInterval(tHandle); tHandle=null; $("tStart").textContent="Start"; tLeft=tDefault; beep(); toast("⏱️ Rest over — next set!"); setTimeout(tShow,400); } },1000);
-});
-$("tReset").addEventListener("click",()=>{ clearInterval(tHandle); tHandle=null; $("tStart").textContent="Start"; tLeft=tDefault; tShow(); });
+$("tStart").addEventListener("click",function(){ if(tHandle){ clearInterval(tHandle); tHandle=null; this.textContent=T("tStart"); return; }
+  this.textContent=T("tPause");
+  tHandle=setInterval(()=>{ tLeft--; tShow(); if(tLeft<=0){ clearInterval(tHandle); tHandle=null; $("tStart").textContent=T("tStart"); tLeft=tDefault; beep(); toast(T("restOver")); setTimeout(tShow,400); } },1000); });
+$("tReset").addEventListener("click",()=>{ clearInterval(tHandle); tHandle=null; $("tStart").textContent=T("tStart"); tLeft=tDefault; tShow(); });
 $("tMinus").addEventListener("click",()=>{ tDefault=Math.max(15,tDefault-15); tLeft=tDefault; tShow(); });
 $("tPlus").addEventListener("click",()=>{ tDefault=Math.min(300,tDefault+15); tLeft=tDefault; tShow(); });
-tShow();
 
 /* ===================== Init ===================== */
-refreshStats();
-if(loadProfile()){ generate(); }   // returning user → straight to today's plan
+applyLang(); tShow(); refreshStats(); checkBadges(false);
+if(loadProfile()){ generate(); }
 </script>
 </body>
 </html>
